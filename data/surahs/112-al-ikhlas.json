@@ -110,16 +110,49 @@
       }
     },
     "ring": {
-      "supported": false,
+      "supported": true,
+      "demo": true,
       "claim": {
-        "text": "No ring composition is claimed for this surah. Four short verses are too few to establish one; the aḥad framing is noted above as a reflection.",
+        "text": "A possible ring, drafted for the demo: verses 1 and 4 mirror each other, and so do verses 2 and 3. No scholar who verifies this ring is cited yet. The same verses can also be read as a simple parallel: two affirmations, then two denials.",
         "tag": "reflection",
         "scholar": "",
         "source": "",
-        "review": false
+        "review": true
       },
-      "units": [],
-      "pairs": []
+      "units": [
+        {
+          "label": "A",
+          "ref": "112:1",
+          "text": "Say: He is Allah, One. His oneness affirmed."
+        },
+        {
+          "label": "B",
+          "ref": "112:2",
+          "text": "Allah, al-Ṣamad. All depend on Him."
+        },
+        {
+          "label": "B′",
+          "ref": "112:3",
+          "text": "He has not begotten, nor been begotten. He depends on no one."
+        },
+        {
+          "label": "A′",
+          "ref": "112:4",
+          "text": "And there is none equal to Him. Any rival denied."
+        }
+      ],
+      "pairs": [
+        {
+          "a": 0,
+          "b": 3,
+          "note": "Both end on aḥad. Verse 1 affirms that He is One; verse 4, after a negation, denies that anyone at all is His equal."
+        },
+        {
+          "a": 1,
+          "b": 2,
+          "note": "Verse 3 unpacks al-Ṣamad. In the narration of Ubayy ibn Kaʿb (al-Tirmidhī), al-Ṣamad is explained as the One who does not beget and was not begotten."
+        }
+      ]
     }
   },
   "verses": [
