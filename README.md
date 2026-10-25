@@ -1,11 +1,17 @@
-# Miracles-of-The-Word
+# The Miracles of The Word
 
-A verse-by-verse English study of the Qurʾān for readers who don't know Arabic, focused on its linguistics.
+A verse-by-verse English study of the Qurʾān for readers who don't know Arabic, focused on the miracle of its language.
 
-## Sūrat al-Ikhlāṣ demo editor
+## How it is organised
 
-- `data/112-al-ikhlas.json` holds the study content: surah overview plus, for each verse, the Arabic text, word by word, literal translation, layers of meaning, linguistics, tafsir, and reason for revelation. Every claim carries a tag (`consensus`, `scholar`, `reflection`), a scholar name, a source, and a `review` flag for scholar review.
-- `editor/index.html` is the editor. Open it in a browser. Switch between Read and Edit, and watch the project rules check in the sidebar (untagged claims, Scholar's view without a name, qiraʾāt or scientific-miracle wording, items marked for review). Edits save in your browser; use **Copy JSON** to take them out and paste them back into `data/112-al-ikhlas.json`.
-- After changing the JSON or `editor/template.html`, rebuild with `python3 tools/build_editor.py`.
+- `data/surahs/NNN-name.json` holds one surah: its words (root, classical meanings, possible translations and which are meant, meanings beyond the dictionary), literal translation, layers of meaning (each with its own tafsir), the linguistic miracle notes, and the reason for revelation. Every claim is tagged `consensus`, `scholar` (with the scholar's name) or `reflection`, has a source, and can be marked for scholar review.
+- `site/templates/` holds the page design. `site/NNN-name.html` (one page per surah) and `site/index.html` are built from the data.
+- Build with `python3 tools/build.py`.
 
-The content is a first draft. Items marked "Scholar review" need checking against the named sources before publishing.
+Right now only Sūrat al-Ikhlāṣ (112) is filled in, as a demo.
+
+## Editing a surah
+
+Open `site/112-al-ikhlas.html` and press **Edit**. Every piece of text becomes editable in place; click an Arabic word to edit its card. The bar at the bottom shows the project rules check. Edits save in your browser. Use **Copy JSON** and paste the result into the surah's file in `data/surahs/` to keep them, then rebuild.
+
+The demo content is a first draft. Items marked "verify" need checking against the named sources.
