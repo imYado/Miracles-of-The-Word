@@ -1,5 +1,5 @@
 {
-  "schema": 2,
+  "schema": 3,
   "surah": {
     "number": 112,
     "nameAr": "الإخلاص",
@@ -280,6 +280,7 @@
         {
           "reading": "\"He\" is the Lord they asked about",
           "translation": "Say: He is Allah, the One.",
+          "note": "The answer to their question: the Lord you ask about is Allah.",
           "explanation": {
             "text": "People asked about the Prophet's Lord. The pronoun huwa points back to the One they asked about, and the answer names Him.",
             "tag": "scholar",
@@ -307,6 +308,7 @@
         {
           "reading": "\"He\" announces a great truth",
           "translation": "Say: The truth is this: Allah is One.",
+          "note": "The pronoun works like a pause before a great truth.",
           "explanation": {
             "text": "huwa can be ḍamīr al-shaʾn, the \"pronoun of the matter\". Arabic uses it to draw attention before a statement of great weight, like saying \"Here is the truth:\".",
             "tag": "scholar",
@@ -327,6 +329,7 @@
         {
           "reading": "aḥad as \"indivisible\"",
           "translation": "Say: He is Allah, One without parts.",
+          "note": "Not only one in number, but one with no parts.",
           "explanation": {
             "text": "aḥad does more than count to one. It denies a second like Him, and it also denies that He is made of parts.",
             "tag": "reflection",
@@ -422,15 +425,21 @@
             }
           ],
           "why": {
-            "text": "See verse 1 for the disagreement on the name's derivation.",
+            "text": "Scholars differ on whether the name is derived (from ilāh, \"the one who is worshipped\") or is a proper name with no derivation. Both views are old, and this study does not choose between them.",
+            "tag": "scholar",
+            "scholar": "al-Rāghib discusses the derivation; the disagreement is reported among grammarians",
+            "source": "al-Rāghib, al-Mufradāt, entry ʾ-l-h",
+            "review": true
+          },
+          "special": {
+            "text": "A proper name used only for the one true God. Grammarians note that it takes no plural and no dual.",
             "tag": "consensus",
             "scholar": "",
             "source": "",
-            "review": false
+            "review": true
           },
-          "special": null,
-          "lexSource": "",
-          "lexReview": false
+          "lexSource": "al-Rāghib, al-Mufradāt, entry ʾ-l-h",
+          "lexReview": true
         },
         {
           "ar": "ٱلصَّمَدُ",
@@ -490,6 +499,7 @@
         {
           "reading": "The One everyone turns to",
           "translation": "Allah is the One to whom all turn in their needs.",
+          "note": "Every creature, knowingly or not, turns to Him in need.",
           "explanation": {
             "text": "From the root sense of aiming for and turning to: every creature, knowingly or not, is headed toward Him in its need.",
             "tag": "reflection",
@@ -510,6 +520,7 @@
         {
           "reading": "Solid, needing nothing",
           "translation": "Allah is the Self-Sufficient, with no hollowness and no need.",
+          "note": "Nothing hollow, nothing lacking. He needs nothing.",
           "explanation": {
             "text": "From the root sense of solidity: something with no hollow inside, nothing that needs filling. He neither eats nor drinks.",
             "tag": "reflection",
@@ -530,6 +541,7 @@
         {
           "reading": "Perfect in mastery",
           "translation": "Allah is the Master, perfect in His mastery.",
+          "note": "The one everyone relies on, without any limit.",
           "explanation": {
             "text": "A ṣamad among the Arabs was a chief whom people relied on. Applied to God, the word means a mastery with no flaw or limit.",
             "tag": "reflection",
@@ -550,6 +562,7 @@
         {
           "reading": "The Everlasting",
           "translation": "Allah is the Everlasting, who remains after His creation.",
+          "note": "He remains when everything else is gone.",
           "explanation": {
             "text": "The one who remains when everything else ends.",
             "tag": "reflection",
@@ -704,6 +717,10 @@
               "used": true
             },
             {
+              "text": "and never",
+              "used": false
+            },
+            {
               "text": "nor",
               "used": false
             }
@@ -761,6 +778,7 @@
         {
           "reading": "A plain denial",
           "translation": "He has not begotten, and He has not been begotten.",
+          "note": "He has no child and no parent.",
           "explanation": {
             "text": "The plain meaning of lam with the jussive: neither of these has happened.",
             "tag": "consensus",
@@ -788,6 +806,7 @@
         {
           "reading": "Never, at any time",
           "translation": "He never begets, and He was never begotten.",
+          "note": "Not only in the past, but at no time at all.",
           "explanation": {
             "text": "The verse describes God's nature, so the past negation can be read as covering all time.",
             "tag": "reflection",
@@ -860,6 +879,10 @@
             {
               "text": "and never",
               "used": true
+            },
+            {
+              "text": "nor",
+              "used": false
             }
           ],
           "why": {
@@ -1025,6 +1048,7 @@
         {
           "reading": "No one is His equal",
           "translation": "And there has never been anyone equal to Him.",
+          "note": "Nothing and no one stands level with Him.",
           "explanation": {
             "text": "The usual parsing: the predicate kufuwan is placed before the subject aḥad.",
             "tag": "scholar",
@@ -1052,6 +1076,7 @@
         {
           "reading": "No one stands toward Him as an equal",
           "translation": "And no one has ever stood toward Him as an equal.",
+          "note": "A second way to read the grammar, still being checked.",
           "explanation": {
             "text": "Some grammarians allow kufuwan as a ḥāl (a word describing a state). Confirm the source before keeping this layer.",
             "tag": "scholar",

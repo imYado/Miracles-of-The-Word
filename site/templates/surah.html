@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Red+Hat+Text:wght@400;500&family=Spectral:ital,wght@0,300;0,400;1,300&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Red+Hat+Text:wght@400;500&family=Spectral:ital,wght@0,300;0,400;1,300&display=swap">
 <style>
 /* Layout: one quiet column under a night sky. The surah in Arabic first, then each verse opening into its layers. Single dark theme by design. */
 :root {
@@ -20,7 +20,7 @@
   --t-scholar: #B9AAF6;
   --t-reflection: #E8B84A;
   --verify: #F19A8C;
-  --f-ar: "Amiri Quran", "Amiri", "Scheherazade New", "Traditional Arabic", serif;
+  --f-ar: "Scheherazade New", "Amiri Quran", "Traditional Arabic", serif;
   --f-display: "Cormorant Garamond", "Cormorant", Garamond, Georgia, serif;
   --f-body: "Spectral", Georgia, "Times New Roman", serif;
   --f-ui: "Red Hat Text", system-ui, sans-serif;
@@ -59,7 +59,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .w { cursor: pointer; border-radius: 6px; padding: 0 .06em; transition: color .15s; display: inline-block; min-width: .6em; line-height: 1.6; }
 .w:hover, .w:focus-visible, .w.on { color: var(--gold); outline: none; }
 .w:empty::before { content: "…"; color: var(--dim); }
-.end { color: var(--gold); font-size: .62em; padding-inline: .25em; opacity: .85; white-space: nowrap; }
+.end { color: var(--gold); font-size: 1.05em; padding-inline: .12em; white-space: nowrap; display: inline-block; line-height: 1; vertical-align: -.08em; }
 
 /* Divider */
 .divider { display: flex; align-items: center; gap: 16px; color: var(--gold); font-size: 12px; margin-block: 56px 40px; }
@@ -77,13 +77,22 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .block > h3 { margin: 0; font-family: var(--f-ui); font-weight: 500; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 12px; }
 .block > h3::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 
-.layer { display: grid; grid-template-columns: 2.2em minmax(0, 1fr); gap: 4px 14px; }
-.layer + .layer { padding-top: 22px; border-top: 1px solid var(--line); }
-.layer .n { font-family: var(--f-display); font-size: 26px; color: var(--gold); line-height: 1.1; font-variant-numeric: lining-nums; }
-.layer .body { display: grid; gap: 12px; min-width: 0; }
-.layer .reading { font-family: var(--f-ui); font-size: 12.5px; letter-spacing: .06em; color: var(--muted); }
+.layer { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px 32px; align-items: start; }
+.layer + .layer { padding-top: 26px; border-top: 1px solid var(--line); }
+.lmain { display: grid; grid-template-columns: 1.6em minmax(0, 1fr); gap: 4px 12px; min-width: 0; }
+.layer .n { font-family: var(--f-display); font-size: 26px; color: var(--gold); line-height: 1.15; font-variant-numeric: lining-nums; }
+.layer .body { display: grid; gap: 8px; min-width: 0; align-content: start; }
 .layer .tl { font-family: var(--f-display); font-size: clamp(24px, 4.2vw, 30px); line-height: 1.25; margin: 0; font-weight: 500; text-wrap: balance; }
-.tafsir { display: grid; gap: 14px; padding-left: 14px; border-left: 1px solid var(--purple); }
+.layer .lnote { margin: 0; color: var(--muted); font-style: italic; font-size: 16.5px; }
+.lside { background: var(--raised); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; font-size: 15px; }
+.lside summary { cursor: pointer; list-style: none; font-family: var(--f-ui); font-size: 11.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; }
+.lside summary::-webkit-details-marker { display: none; }
+.lside summary::after { content: "+"; color: var(--gold); letter-spacing: 0; font-size: 15px; line-height: 1; }
+.lside[open] summary::after { content: "−"; }
+.lside .in { display: grid; gap: 14px; padding-top: 12px; }
+.lside .reading { font-family: var(--f-ui); font-size: 13px; color: var(--text); }
+.lside .claim > p, .lside .tq p { font-size: 15px; line-height: 1.55; }
+.tafsir { display: grid; gap: 12px; padding-left: 12px; border-left: 1px solid var(--purple); }
 .tafsir .label { color: var(--purple); }
 .tq { display: grid; gap: 3px; }
 .tq .who { font-family: var(--f-ui); font-size: 13px; letter-spacing: .04em; color: var(--t-scholar); }
@@ -186,10 +195,13 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
 #modal textarea { width: 100%; min-height: 220px; background: var(--night); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 10px; font: 12.5px/1.45 ui-monospace, Menlo, monospace; }
 #modal .err { color: var(--verify); }
 
+@media (max-width: 760px) {
+  .layer { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
 @media (max-width: 640px) {
   body { font-size: 16.5px; }
   .hero { padding-block: 36px 16px; }
-  .layer { grid-template-columns: 1.6em minmax(0, 1fr); gap: 4px 10px; }
+  .lmain { grid-template-columns: 1.3em minmax(0, 1fr); gap: 4px 10px; }
   .divider { margin-block: 44px 30px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -230,7 +242,7 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
 (function () {
   "use strict";
   const SEED = JSON.parse(document.getElementById("seed").textContent);
-  const KEY = "motw-surah-" + SEED.surah.number;
+  const KEY = "motw-surah-" + SEED.surah.number + "-v" + (SEED.schema || 1);
   const TAGS = { consensus: "Consensus", scholar: "Scholar's view", reflection: "Reflection" };
   const ORDER = ["consensus", "scholar", "reflection"];
   const BANNED = [
@@ -244,12 +256,13 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
   const NEW = {
     claim: blank,
     note: () => Object.assign({ topic: "Word choice", title: "" }, blank()),
-    layer: () => ({ reading: "", translation: "", explanation: blank(), tafsir: [] }),
+    layer: () => ({ reading: "", translation: "", note: "", explanation: blank(), tafsir: [] }),
     word: () => ({ ar: "", tr: "", root: "", rootTr: "", rootMeaning: "", meanings: [], translations: [], why: blank(), special: null, lexSource: "", lexReview: false }),
     translation: () => ({ text: "", used: false }),
     text: () => ""
   };
 
+  const wide = matchMedia("(min-width: 761px)");
   let doc = load();
   let editing = false;
 
@@ -304,7 +317,7 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
   function literalHtml(s) { return esc(s).replace(/\[([^\]]*)\]/g, '<span class="added">[$1]</span>'); }
   function wordsHtml(vi) {
     return doc.verses[vi].words.map((w, wi) => '<span class="w" role="button" tabindex="0" data-v="' + vi + '" data-w="' + wi + '">' + esc(w.ar) + "</span>").join(" ") +
-      ' <span class="end">﴿' + AR(doc.verses[vi].n) + "﴾</span>";
+      ' <span class="end" aria-label="end of verse ' + doc.verses[vi].n + '">\u06DD' + AR(doc.verses[vi].n) + "</span>";
   }
 
   /* ---------- Page ---------- */
@@ -336,15 +349,18 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
     h += '<div class="block"><h3>Layers of meaning</h3>';
     v.layers.forEach((l, li) => {
       const p = b + ".layers." + li;
-      h += '<article class="layer"><span class="n">' + (li + 1) + '</span><div class="body">' +
-        ed(p + ".reading", "span", "reading", "Which meaning this layer follows") +
+      if (l.note == null) l.note = "";
+      h += '<article class="layer"><div class="lmain"><span class="n">' + (li + 1) + '</span><div class="body">' +
         ed(p + ".translation", "p", "tl", "Clear English translation") +
-        claim(p + ".explanation", "Explain this layer") +
+        ed(p + ".note", "p", "lnote", "A short, simple note on this reading") +
+        delBtn(p, "Remove layer") + "</div></div>" +
+        '<details class="lside"' + (editing || wide.matches ? " open" : "") + "><summary>Sources and details</summary><div class=\"in\">" +
+        ed(p + ".reading", "span", "reading", "Which meaning this layer follows") +
+        claim(p + ".explanation", "Explain this layer in detail") +
         '<div class="tafsir"><span class="label">Tafsir</span>' +
         l.tafsir.map((t, ti) => tafsirHtml(p + ".tafsir." + ti)).join("") +
         (!l.tafsir.length && !editing ? '<p class="quiet">No tafsir recorded for this reading yet.</p>' : "") +
-        addBtn(p + ".tafsir", "claim", "tafsir") + "</div>" +
-        delBtn(p, "Remove layer") + "</div></article>";
+        addBtn(p + ".tafsir", "claim", "tafsir") + "</div></div></details></article>";
     });
     h += addBtn(b + ".layers", "layer", "layer") + "</div>";
 
@@ -400,7 +416,8 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
 
   /* ---------- Word card ---------- */
   const card = document.getElementById("card");
-  let cardAt = null, pinned = false, hideT = null;
+  let cardAt = null, pinned = false, hideT = null, showT = null;
+  const HOVER_DELAY = 500;
 
   function cardHtml(vi, wi) {
     const w = doc.verses[vi].words[wi], p = "verses." + vi + ".words." + wi;
@@ -473,10 +490,15 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
   document.addEventListener("mouseover", (e) => {
     if (!hover.matches) return;
     const w = e.target.closest(".w");
-    if (w) openCard(w, false);
-    else if (e.target.closest("#card")) clearTimeout(hideT);
+    if (w) {
+      clearTimeout(showT);
+      // first card waits half a second; once a card is open, moving to the next word switches at once
+      if (!card.hidden && !pinned) openCard(w, false);
+      else showT = setTimeout(() => openCard(w, false), HOVER_DELAY);
+    } else if (e.target.closest("#card")) clearTimeout(hideT);
   });
   document.addEventListener("mouseout", (e) => {
+    if (e.target.closest(".w")) clearTimeout(showT);
     if (!hover.matches || pinned) return;
     if (e.target.closest(".w") || e.target.closest("#card")) {
       clearTimeout(hideT);
@@ -485,7 +507,7 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
   });
   document.addEventListener("click", (e) => {
     const w = e.target.closest(".w");
-    if (w) { openCard(w, true); return; }
+    if (w) { clearTimeout(showT); openCard(w, true); return; }
     if (!e.target.closest("#card") && !e.target.closest("#ebar") && !card.hidden) closeCard();
   });
   document.addEventListener("keydown", (e) => {
