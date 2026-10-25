@@ -1,0 +1,617 @@
+<title>Ikhlas Study Editor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap">
+<style>
+/* Layout: a study desk. Fixed verse index on the left, one verse open on the page, sections in the project's fixed 1–7 order. */
+:root {
+  --paper: #F2F4F1;
+  --surface: #FFFFFF;
+  --ink: #18201D;
+  --muted: #5A6661;
+  --line: #D6DDD8;
+  --accent: #1E5E58;
+  --accent-soft: #DFECE9;
+  --consensus: #2D6A39; --consensus-bg: #E2F0E4;
+  --scholar: #2A4E8A;   --scholar-bg: #E3E9F5;
+  --reflection: #84560F; --reflection-bg: #F5EBD7;
+  --review: #A1312A;    --review-bg: #F7E2DF;
+  --added: #8A938F;
+  --font-ar: "Amiri Quran", "Amiri", "Scheherazade New", "Traditional Arabic", serif;
+  --font-prose: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #101614; --surface: #171F1C; --ink: #E4EBE7; --muted: #98A6A0; --line: #2A3531;
+  --accent: #6FC3B7; --accent-soft: #1C322E;
+  --consensus: #8DD099; --consensus-bg: #1C3122;
+  --scholar: #9EB9EC; --scholar-bg: #1D2840;
+  --reflection: #E6BD72; --reflection-bg: #382A13;
+  --review: #EF948B; --review-bg: #3B1D1A;
+  --added: #7D8984; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #101614; --surface: #171F1C; --ink: #E4EBE7; --muted: #98A6A0; --line: #2A3531;
+  --accent: #6FC3B7; --accent-soft: #1C322E;
+  --consensus: #8DD099; --consensus-bg: #1C3122;
+  --scholar: #9EB9EC; --scholar-bg: #1D2840;
+  --reflection: #E6BD72; --reflection-bg: #382A13;
+  --review: #EF948B; --review-bg: #3B1D1A;
+  --added: #7D8984; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* Header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line);
+  padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top-inner { max-width: 1240px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.brand { display: flex; align-items: baseline; gap: 10px; min-width: 0; flex: 1 1 260px; }
+.brand-ar { font-family: var(--font-ar); font-size: 26px; line-height: 1; color: var(--accent); }
+.brand h1 { margin: 0; font-family: var(--font-prose); font-weight: 600; font-size: 19px; text-wrap: balance; }
+.brand small { color: var(--muted); font-size: 12.5px; display: block; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.seg button { border: 0; background: transparent; padding: 6px 14px; cursor: pointer; font-weight: 500; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 6px 12px; cursor: pointer; font-size: 14px; }
+.btn:hover { border-color: var(--accent); }
+.btn.danger { color: var(--review); }
+.btn.danger.armed { background: var(--review); color: var(--surface); border-color: var(--review); }
+.btn.small { padding: 3px 9px; font-size: 13px; }
+.status { font-size: 12.5px; color: var(--muted); min-width: 0; }
+
+/* Shell */
+.shell { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px;
+  padding-block: 24px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.side { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 76px); align-self: start; display: grid; gap: 20px; }
+.nav { display: grid; gap: 4px; }
+.nav a { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--r); text-decoration: none; color: var(--ink); border: 1px solid transparent; }
+.nav a:hover { background: var(--surface); border-color: var(--line); }
+.nav a[aria-current="page"] { background: var(--accent-soft); border-color: var(--accent); }
+.nav .lbl { font-weight: 500; font-size: 14px; }
+.nav .ar { font-family: var(--font-ar); font-size: 18px; direction: rtl; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+.nav .badge { font-size: 11px; font-variant-numeric: tabular-nums; color: var(--review); grid-column: 1 / -1; margin-top: -2px; }
+.side h2 { margin: 0 0 6px; font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+.checks { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px; display: grid; gap: 8px; }
+.tally { display: flex; gap: 8px; flex-wrap: wrap; }
+.tally span { font-size: 12.5px; padding: 2px 8px; border-radius: 99px; font-variant-numeric: tabular-nums; }
+.tally .bad { background: var(--review-bg); color: var(--review); }
+.tally .ok { background: var(--consensus-bg); color: var(--consensus); }
+.tally .rev { background: var(--reflection-bg); color: var(--reflection); }
+.issues { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; max-height: 40vh; overflow: auto; }
+.issues li { font-size: 13px; line-height: 1.35; }
+.issues a { color: inherit; text-decoration: none; display: block; padding: 4px 6px; border-radius: 4px; border-left: 3px solid var(--review); background: var(--paper); }
+.issues a.warn { border-left-color: var(--reflection); }
+.issues a:hover { background: var(--accent-soft); }
+.issues b { display: block; font-weight: 600; font-size: 11.5px; color: var(--muted); }
+.legend { display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+
+/* Main page */
+main { min-width: 0; display: grid; gap: 20px; }
+.vhead { display: grid; gap: 4px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.vhead h2 { margin: 0; font-family: var(--font-prose); font-size: 30px; font-weight: 600; text-wrap: balance; }
+.sec { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 20px; display: grid; gap: 14px; min-width: 0; }
+.sec > header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.sec > header h3 { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+.sec > header .num { font-family: var(--font-prose); font-size: 20px; color: var(--accent); font-variant-numeric: tabular-nums; width: 1.2em; }
+.sec > header .hint { color: var(--muted); font-size: 13px; }
+.sec > header .spacer { flex: 1; }
+.prose { font-family: var(--font-prose); font-size: 17.5px; line-height: 1.55; max-width: 68ch; margin: 0; }
+
+.ayah { font-family: var(--font-ar); direction: rtl; text-align: right; font-size: clamp(30px, 6vw, 44px); line-height: 2; margin: 0; }
+.ayah .end { color: var(--accent); font-size: .8em; padding-right: .2em; }
+
+.words { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.word { border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 8px; align-content: start; min-width: 0; background: var(--paper); }
+.word-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.word .w-ar { font-family: var(--font-ar); font-size: 30px; direction: rtl; line-height: 1.6; }
+.word .w-tr { font-family: var(--font-prose); font-style: italic; font-size: 17px; }
+.word .w-root { font-size: 13px; color: var(--muted); }
+.word .w-root .r-ar { font-family: var(--font-ar); font-size: 17px; color: var(--ink); direction: rtl; unicode-bidi: isolate; }
+.word ul { margin: 0; padding-left: 18px; font-size: 14px; }
+.word .used { font-size: 14px; padding: 6px 8px; background: var(--accent-soft); border-radius: 4px; }
+.word .used b { font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; display: block; color: var(--accent); }
+.lex { font-size: 12.5px; color: var(--muted); }
+
+.literal { font-family: var(--font-prose); font-size: 22px; margin: 0; }
+.literal .added { color: var(--added); }
+
+.layers { display: grid; gap: 12px; }
+.layer { display: grid; gap: 6px; padding-left: 14px; border-left: 2px solid var(--line); }
+.layer .reading { font-size: 12.5px; color: var(--muted); font-weight: 500; }
+.layer .tl { font-family: var(--font-prose); font-size: 19px; margin: 0; }
+
+.ling-group { display: grid; gap: 10px; }
+.ling-group h4 { margin: 0; font-size: 13px; font-weight: 600; color: var(--accent); }
+
+.claim { display: grid; gap: 6px; }
+.claim p { margin: 0; font-family: var(--font-prose); font-size: 16.5px; line-height: 1.55; max-width: 70ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: 12.5px; }
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 99px; font-weight: 500; font-size: 12px; white-space: nowrap; }
+.chip.consensus { background: var(--consensus-bg); color: var(--consensus); }
+.chip.scholar { background: var(--scholar-bg); color: var(--scholar); white-space: normal; }
+.chip.reflection { background: var(--reflection-bg); color: var(--reflection); }
+.chip.review { background: var(--review-bg); color: var(--review); }
+.chip.none { background: var(--review-bg); color: var(--review); }
+.src { color: var(--muted); }
+.empty { color: var(--muted); font-style: italic; margin: 0; }
+.stack { display: grid; gap: 14px; }
+.links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.link-card { border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 10px; align-content: start; background: var(--paper); }
+.link-card h4 { margin: 0; font-family: var(--font-prose); font-size: 18px; font-weight: 600; }
+
+/* Edit controls */
+.f { display: grid; gap: 4px; min-width: 0; }
+.f > span { font-size: 12px; color: var(--muted); font-weight: 500; }
+.f input[type="text"], .f textarea, .f select { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 4px; padding: 6px 8px; }
+.f textarea { resize: vertical; min-height: 2.6em; line-height: 1.45; }
+.f textarea.ar, .f input.ar { font-family: var(--font-ar); font-size: 24px; direction: rtl; line-height: 1.8; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.ced { border: 1px dashed var(--line); border-radius: var(--r); padding: 10px; display: grid; gap: 8px; background: var(--paper); }
+.ced .row { grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr); }
+.chk { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; }
+.item-tools { display: flex; justify-content: flex-end; gap: 6px; }
+.needs { border-color: var(--review) !important; }
+
+.panel { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--r); padding: 16px; display: grid; gap: 10px; }
+.panel textarea { width: 100%; min-height: 160px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; border: 1px solid var(--line); border-radius: 4px; padding: 8px; background: var(--paper); }
+.panel .msg { font-size: 13px; }
+.panel .msg.err { color: var(--review); }
+
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 18px; padding-block: 16px 48px; }
+  .top { position: static; }
+  .side { position: static; min-width: 0; }
+  .side > * { min-width: 0; }
+  .nav { grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; padding-bottom: 4px; }
+  .nav .ar { display: none; }
+  .issues { max-height: 220px; }
+  .sec { padding: 14px; }
+  .ced .row { grid-template-columns: minmax(0, 1fr); }
+  .vhead h2 { font-size: 24px; }
+}
+</style>
+
+<div class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <span class="brand-ar" lang="ar">الإخلاص</span>
+      <div>
+        <h1>The Miracles of The Word</h1>
+        <small>Sūrat al-Ikhlāṣ (112) · study editor</small>
+      </div>
+    </div>
+    <div class="tools">
+      <div class="seg" role="group" aria-label="Mode">
+        <button id="mode-read" type="button" aria-pressed="true">Read</button>
+        <button id="mode-edit" type="button" aria-pressed="false">Edit</button>
+      </div>
+      <button class="btn" id="btn-copy" type="button">Copy JSON</button>
+      <button class="btn" id="btn-import" type="button">Import JSON</button>
+      <button class="btn danger" id="btn-reset" type="button">Restore original</button>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+  </div>
+</div>
+
+<div class="shell">
+  <aside class="side">
+    <div>
+      <h2>Contents</h2>
+      <nav class="nav" id="nav"></nav>
+    </div>
+    <div class="checks">
+      <h2>Project rules check</h2>
+      <div class="tally" id="tally"></div>
+      <ul class="issues" id="issues"></ul>
+    </div>
+    <div class="legend">
+      <h2>Claim tags</h2>
+      <div><span class="chip consensus">Consensus</span> agreed by the scholars</div>
+      <div><span class="chip scholar">Scholar's view</span> named scholar's position</div>
+      <div><span class="chip reflection">Reflection</span> the author's own</div>
+      <div><span class="chip review">Scholar review</span> verify before publishing</div>
+    </div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<script type="application/json" id="seed">/*__SEED__*/</script>
+<script>
+(function () {
+  "use strict";
+  const SEED = JSON.parse(document.getElementById("seed").textContent);
+  const KEY = "motw-112-al-ikhlas";
+  const TAGS = { consensus: "Consensus", scholar: "Scholar's view", reflection: "Reflection" };
+  const LING_TOPICS = ["Word choice", "Word order", "Definite / indefinite", "Rhetoric", "Sound"];
+  const BANNED = [
+    { re: /qir[aā]['ʾ’]?[aā]t|qira'a|\bqira\b|variant reading/i, msg: "Mentions qiraʾāt. Project rule: no different qiraʾāt." },
+    { re: /scien(ce|tific)|modern discover/i, msg: "Possible scientific miracle claim. Project rule: none." }
+  ];
+
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  const blankClaim = () => ({ text: "", tag: "", scholar: "", source: "", review: false });
+  const BLANKS = {
+    claim: blankClaim,
+    ling: () => Object.assign({ topic: "Word choice" }, blankClaim()),
+    layer: () => ({ reading: "", translation: "", claim: blankClaim() }),
+    word: () => ({ ar: "", tr: "", root: "", rootTr: "", meanings: [], used: "", why: blankClaim(), lexSource: "", lexReview: false })
+  };
+
+  let doc = load();
+  let mode = "read";
+  let view = viewFromHash();
+  let resetTimer = null;
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) { const d = JSON.parse(raw); if (d && d.surah && Array.isArray(d.verses)) return d; }
+    } catch (e) { /* storage unavailable */ }
+    return clone(SEED);
+  }
+  let saveTimer = null;
+  function save() {
+    setStatus("Saving…");
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try { localStorage.setItem(KEY, JSON.stringify(doc)); setStatus("Saved in this browser · use Copy JSON to keep a copy"); }
+      catch (e) { setStatus("Could not save in this browser. Use Copy JSON before closing."); }
+    }, 300);
+  }
+  function setStatus(t) { document.getElementById("status").textContent = t; }
+
+  function viewFromHash() {
+    const h = (location.hash || "").slice(1);
+    const m = /^v(\d+)$/.exec(h);
+    if (m && doc.verses[+m[1] - 1]) return +m[1];
+    return "surah";
+  }
+
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const toArabicDigits = (n) => String(n).replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+
+  function getPath(p) { return p.split(".").reduce((o, k) => (o == null ? o : o[k]), doc); }
+  function setPath(p, v) {
+    const ks = p.split("."); const last = ks.pop();
+    const o = ks.reduce((o, k) => o[k], doc); o[last] = v;
+  }
+
+  /* ---------- Read-mode pieces ---------- */
+  function tagChip(c) {
+    if (!c.tag) return '<span class="chip none">No tag</span>';
+    if (c.tag === "scholar") return '<span class="chip scholar">Scholar\'s view' + (c.scholar ? " · " + esc(c.scholar) : " · name missing") + "</span>";
+    return '<span class="chip ' + c.tag + '">' + TAGS[c.tag] + "</span>";
+  }
+  function claimRead(c) {
+    if (!c) return "";
+    return '<div class="claim"><p>' + esc(c.text) + '</p><div class="meta">' + tagChip(c) +
+      (c.source ? '<span class="src">' + esc(c.source) + "</span>" : "") +
+      (c.review ? '<span class="chip review">Scholar review</span>' : "") + "</div></div>";
+  }
+  function literalHtml(s) { return esc(s).replace(/\[([^\]]*)\]/g, '<span class="added">[$1]</span>'); }
+
+  /* ---------- Edit-mode pieces ---------- */
+  function field(p, label, opts) {
+    opts = opts || {};
+    const v = getPath(p);
+    const cls = opts.ar ? ' class="ar"' : "";
+    const dir = opts.ar ? ' dir="rtl" lang="ar"' : "";
+    const id = "f-" + p.replace(/\./g, "-");
+    let ctl;
+    if (opts.list) ctl = '<textarea id="' + id + '" data-path="' + p + '" data-list="1" rows="' + Math.max(2, (v || []).length) + '">' + esc((v || []).join("\n")) + "</textarea>";
+    else if (opts.area) ctl = '<textarea id="' + id + '"' + cls + dir + ' data-path="' + p + '" rows="' + (opts.rows || 2) + '">' + esc(v) + "</textarea>";
+    else ctl = '<input type="text" id="' + id + '"' + cls + dir + ' data-path="' + p + '" value="' + esc(v) + '"' + (opts.ph ? ' placeholder="' + esc(opts.ph) + '"' : "") + ">";
+    return '<label class="f"><span>' + esc(label) + (opts.list ? " (one per line)" : "") + "</span>" + ctl + "</label>";
+  }
+  function check(p, label, rerender) {
+    const id = "f-" + p.replace(/\./g, "-");
+    return '<label class="chk"><input type="checkbox" id="' + id + '" data-path="' + p + '"' + (rerender ? ' data-rerender="1"' : "") + (getPath(p) ? " checked" : "") + "> " + esc(label) + "</label>";
+  }
+  function claimEdit(p, removable) {
+    const c = getPath(p);
+    const id = "f-" + p.replace(/\./g, "-");
+    const opts = ['<option value="">Choose a tag…</option>'].concat(Object.keys(TAGS).map((k) => '<option value="' + k + '"' + (c.tag === k ? " selected" : "") + ">" + TAGS[k] + "</option>")).join("");
+    return '<div class="ced">' +
+      field(p + ".text", "Claim", { area: true, rows: 2 }) +
+      '<div class="row">' +
+        '<label class="f"><span>Tag</span><select id="' + id + '-tag" data-path="' + p + '.tag" class="' + (c.tag ? "" : "needs") + '">' + opts + "</select></label>" +
+        field(p + ".scholar", "Scholar (needed for Scholar's view)", { ph: "e.g. al-Zamakhsharī" }) +
+        field(p + ".source", "Source", { ph: "Book, entry or verse" }) +
+      "</div>" +
+      '<div class="item-tools" style="justify-content:space-between">' + check(p + ".review", "Mark for scholar review") +
+        (removable ? '<button type="button" class="btn small danger" data-remove="' + removable + '">Remove</button>' : "") + "</div>" +
+    "</div>";
+  }
+  function addBtn(p, kind, label) { return '<button type="button" class="btn small" data-add="' + p + '" data-kind="' + kind + '">' + esc(label) + "</button>"; }
+
+  function sec(num, title, hint, body, tools) {
+    return '<section class="sec" id="s' + num + '"><header>' + (num ? '<span class="num">' + num + "</span>" : "") + "<h3>" + esc(title) + "</h3>" +
+      (hint ? '<span class="hint">' + esc(hint) + "</span>" : "") + '<span class="spacer"></span>' + (tools || "") + "</header>" + body + "</section>";
+  }
+
+  /* ---------- Views ---------- */
+  function renderSurah() {
+    const s = doc.surah, E = mode === "edit";
+    let h = '<div class="vhead"><span class="eyebrow">Surah ' + s.number + " · " + s.verseCount + " verses · " + esc(s.status) + "</span><h2>" + esc(s.nameTr) + ": " + esc(s.nameEn) + "</h2></div>";
+
+    let theme = E
+      ? '<div class="stack">' + s.theme.map((c, i) => claimEdit("surah.theme." + i, "surah.theme." + i)).join("") + "</div>"
+      : '<div class="stack">' + s.theme.map(claimRead).join("") + "</div>";
+    h += sec("", "Central theme", "", theme, E ? addBtn("surah.theme", "claim", "Add claim") : "");
+
+    h += sec("", "Place of revelation", "", E ? claimEdit("surah.revelation") : claimRead(s.revelation));
+
+    const card = (key, label) => {
+      const L = s.links[key];
+      const body = E
+        ? field("surah.links." + key + ".surah", label + " surah") + L.claims.map((c, i) => claimEdit("surah.links." + key + ".claims." + i, "surah.links." + key + ".claims." + i)).join("") + "<div>" + addBtn("surah.links." + key + ".claims", "claim", "Add link") + "</div>"
+        : "<h4>" + esc(L.surah) + "</h4>" + (L.claims.length ? L.claims.map(claimRead).join("") : '<p class="empty">No link recorded.</p>');
+      return '<div class="link-card"><span class="eyebrow">' + label + "</span>" + body + "</div>";
+    };
+    h += sec("", "Links to neighbouring surahs", "", '<div class="links-grid">' + card("previous", "Before") + card("next", "After") + "</div>");
+
+    const ring = E
+      ? check("surah.ring.supported", "A ring structure is well supported") + claimEdit("surah.ring.claim")
+      : '<div class="meta"><span class="chip ' + (s.ring.supported ? "consensus" : "reflection") + '">' + (s.ring.supported ? "Ring structure claimed" : "No ring structure claimed") + "</span></div>" + claimRead(s.ring.claim);
+    h += sec("", "Ring structure", "Only if well supported", ring);
+    return h;
+  }
+
+  function renderVerse(n) {
+    const v = doc.verses[n - 1], b = "verses." + (n - 1), E = mode === "edit";
+    let h = '<div class="vhead"><span class="eyebrow">' + esc(doc.surah.nameTr) + " · 112:" + n + "</span><h2>Verse " + n + "</h2></div>";
+
+    // 1 Arabic
+    h += sec(1, "Arabic text", "Uthmani script", E
+      ? field(b + ".arabic", "Verse text", { area: true, ar: true, rows: 2 })
+      : '<p class="ayah" lang="ar" dir="rtl">' + esc(v.arabic) + ' <span class="end">﴿' + toArabicDigits(n) + "﴾</span></p>");
+
+    // 2 Word by word
+    const words = v.words.map((w, i) => {
+      const p = b + ".words." + i;
+      if (E) {
+        return '<div class="word">' +
+          '<div class="row">' + field(p + ".ar", "Arabic", { ar: true }) + field(p + ".tr", "Transliteration") + "</div>" +
+          '<div class="row">' + field(p + ".root", "Root (Arabic letters)", { ar: true }) + field(p + ".rootTr", "Root (Latin)") + "</div>" +
+          field(p + ".meanings", "Classical meanings", { list: true }) +
+          field(p + ".used", "Meaning used in this verse", { area: true }) +
+          '<div class="f"><span>Why this meaning</span>' + claimEdit(p + ".why") + "</div>" +
+          field(p + ".lexSource", "Lexicon sources") +
+          '<div class="item-tools" style="justify-content:space-between">' + check(p + ".lexReview", "Lexicon entry needs scholar review") +
+          '<span><button type="button" class="btn small" data-move="' + p + '" data-dir="-1" aria-label="Move word earlier">↑</button> <button type="button" class="btn small" data-move="' + p + '" data-dir="1" aria-label="Move word later">↓</button> <button type="button" class="btn small danger" data-remove="' + p + '">Remove word</button></span></div>' +
+          "</div>";
+      }
+      return '<article class="word">' +
+        '<div class="word-top"><span class="w-tr">' + esc(w.tr) + '</span><span class="w-ar" lang="ar">' + esc(w.ar) + "</span></div>" +
+        '<div class="w-root">' + (w.root ? 'Root <span class="r-ar" lang="ar">' + esc(w.root) + "</span> · " : "") + esc(w.rootTr) + "</div>" +
+        "<ul>" + w.meanings.map((m) => "<li>" + esc(m) + "</li>").join("") + "</ul>" +
+        '<div class="used"><b>Used here</b>' + esc(w.used) + "</div>" +
+        claimRead(w.why) +
+        (w.lexSource ? '<div class="lex">Lexicon: ' + esc(w.lexSource) + (w.lexReview ? ' <span class="chip review">Scholar review</span>' : "") + "</div>" : "") +
+        "</article>";
+    }).join("");
+    h += sec(2, "Word by word", "Root, classical meanings, the meaning used, and why", '<div class="words">' + words + "</div>", E ? addBtn(b + ".words", "word", "Add word") : "");
+
+    // 3 Literal
+    h += sec(3, "Literal translation", "Arabic word order; added words in [brackets]", E
+      ? field(b + ".literal", "Literal translation", { area: true })
+      : '<p class="literal">' + literalHtml(v.literal) + "</p>");
+
+    // 4 Layers
+    const layers = v.layers.map((l, i) => {
+      const p = b + ".layers." + i;
+      if (E) return '<div class="ced" style="border-style:solid">' + '<div class="row">' + field(p + ".reading", "Which meaning") + field(p + ".translation", "Clear English translation") + "</div>" + claimEdit(p + ".claim") +
+        '<div class="item-tools"><button type="button" class="btn small danger" data-remove="' + p + '">Remove layer</button></div></div>';
+      return '<div class="layer"><span class="reading">' + esc(l.reading) + '</span><p class="tl">' + esc(l.translation) + "</p>" + claimRead(l.claim) + "</div>";
+    }).join("");
+    h += sec(4, "Layers of meaning", "One translation per valid meaning", '<div class="layers">' + (layers || '<p class="empty">No layers yet.</p>') + "</div>", E ? addBtn(b + ".layers", "layer", "Add layer") : "");
+
+    // 5 Linguistics
+    let ling;
+    if (E) {
+      ling = '<div class="stack">' + v.linguistics.map((c, i) => {
+        const p = b + ".linguistics." + i;
+        const topics = LING_TOPICS.map((t) => '<option' + (c.topic === t ? " selected" : "") + ">" + t + "</option>").join("");
+        return '<div class="stack" style="gap:6px"><label class="f"><span>Topic</span><select id="f-' + p.replace(/\./g, "-") + '-topic" data-path="' + p + '.topic" data-rerender="1">' + topics + "</select></label>" + claimEdit(p, p) + "</div>";
+      }).join("") + "</div>";
+    } else {
+      ling = LING_TOPICS.map((t) => {
+        const items = v.linguistics.filter((c) => c.topic === t);
+        return items.length ? '<div class="ling-group"><h4>' + t + "</h4>" + items.map(claimRead).join("") + "</div>" : "";
+      }).join("") || '<p class="empty">No notes yet.</p>';
+      ling = '<div class="stack">' + ling + "</div>";
+    }
+    h += sec(5, "Linguistics", "Word choice, order, definiteness, rhetoric, sound", ling, E ? addBtn(b + ".linguistics", "ling", "Add note") : "");
+
+    // 6 Tafsir
+    h += sec(6, "Tafsir", "Short", '<div class="stack">' + (E
+      ? v.tafsir.map((c, i) => claimEdit(b + ".tafsir." + i, b + ".tafsir." + i)).join("")
+      : v.tafsir.map(claimRead).join("")) + "</div>", E ? addBtn(b + ".tafsir", "claim", "Add point") : "");
+
+    // 7 Asbab
+    const a = v.asbab;
+    let asb;
+    if (E) {
+      asb = check(b + ".asbab.exists", "A narration exists for this verse", true);
+      if (a.exists) {
+        ["narration", "grading", "disagreement"].forEach((k) => { if (!a[k]) a[k] = blankClaim(); });
+        asb += '<div class="f"><span>Narration</span>' + claimEdit(b + ".asbab.narration") + "</div>" +
+          '<div class="f"><span>Authenticity grading</span>' + claimEdit(b + ".asbab.grading") + "</div>" +
+          '<div class="f"><span>Disagreement</span>' + claimEdit(b + ".asbab.disagreement") + "</div>";
+      } else {
+        if (a.note == null) a.note = "";
+        asb += field(b + ".asbab.note", "Note", { area: true });
+      }
+    } else if (a.exists) {
+      asb = '<div class="stack"><div class="ling-group"><h4>Narration</h4>' + claimRead(a.narration) + '</div><div class="ling-group"><h4>Authenticity grading</h4>' + claimRead(a.grading) + "</div>" +
+        (a.disagreement && a.disagreement.text ? '<div class="ling-group"><h4>Disagreement</h4>' + claimRead(a.disagreement) + "</div>" : "") + "</div>";
+    } else {
+      asb = '<p class="empty">' + esc(a.note || "No narration recorded.") + "</p>";
+    }
+    h += sec(7, "Reason for revelation", "Only if a narration exists", asb);
+    return h;
+  }
+
+  /* ---------- Rules check ---------- */
+  function allClaims() {
+    const out = [], s = doc.surah;
+    const push = (c, where, target) => { if (c) out.push({ c, where, target }); };
+    s.theme.forEach((c) => push(c, "Surah · Theme", "surah"));
+    push(s.revelation, "Surah · Revelation", "surah");
+    ["previous", "next"].forEach((k) => s.links[k].claims.forEach((c) => push(c, "Surah · Link " + (k === "previous" ? "before" : "after"), "surah")));
+    push(s.ring.claim, "Surah · Ring structure", "surah");
+    doc.verses.forEach((v) => {
+      const t = "v" + v.n, V = "Verse " + v.n;
+      v.words.forEach((w) => push(w.why, V + " · Word " + (w.tr || "?"), t));
+      v.layers.forEach((l) => push(l.claim, V + " · Layer", t));
+      v.linguistics.forEach((c) => push(c, V + " · " + c.topic, t));
+      v.tafsir.forEach((c) => push(c, V + " · Tafsir", t));
+      if (v.asbab.exists) ["narration", "grading", "disagreement"].forEach((k) => push(v.asbab[k], V + " · Reason for revelation (" + k + ")", t));
+    });
+    return out;
+  }
+  function runChecks() {
+    const issues = []; let review = 0;
+    const claims = allClaims();
+    claims.forEach(({ c, where, target }) => {
+      if (k_empty(c.text)) { if (!/disagreement/.test(where)) issues.push({ where, target, msg: "Empty claim." }); return; }
+      if (!c.tag) issues.push({ where, target, msg: "Claim has no tag." });
+      if (c.tag === "scholar" && k_empty(c.scholar)) issues.push({ where, target, msg: "Scholar's view without a scholar's name." });
+      if (c.review) review++;
+      BANNED.forEach((b) => { if (b.re.test(c.text)) issues.push({ where, target, msg: b.msg, warn: true }); });
+    });
+    doc.verses.forEach((v) => {
+      const t = "v" + v.n, V = "Verse " + v.n;
+      if (k_empty(v.arabic)) issues.push({ where: V, target: t, msg: "Arabic text is missing." });
+      if (k_empty(v.literal)) issues.push({ where: V, target: t, msg: "Literal translation is missing." });
+      if (!v.layers.length) issues.push({ where: V, target: t, msg: "No layers of meaning.", warn: true });
+      v.words.forEach((w) => {
+        if (w.lexReview) review++;
+        if (!w.meanings.length) issues.push({ where: V + " · Word " + (w.tr || "?"), target: t, msg: "No classical meanings listed." });
+        if (k_empty(w.used)) issues.push({ where: V + " · Word " + (w.tr || "?"), target: t, msg: "Meaning used in the verse is missing." });
+      });
+      if (v.asbab.exists && v.asbab.grading && k_empty(v.asbab.grading.text)) issues.push({ where: V + " · Reason for revelation", target: t, msg: "Narration has no authenticity grading." });
+    });
+    return { issues, review, total: claims.length };
+  }
+  function k_empty(s) { return !s || !String(s).trim(); }
+
+  function renderChecks() {
+    const r = runChecks();
+    const errs = r.issues.filter((i) => !i.warn).length, warns = r.issues.length - errs;
+    document.getElementById("tally").innerHTML =
+      (r.issues.length ? '<span class="bad">' + errs + " problem" + (errs === 1 ? "" : "s") + (warns ? " · " + warns + " warning" + (warns === 1 ? "" : "s") : "") + "</span>" : '<span class="ok">All ' + r.total + " claims tagged</span>") +
+      '<span class="rev">' + r.review + " for scholar review</span>";
+    document.getElementById("issues").innerHTML = r.issues.map((i) =>
+      '<li><a href="#' + (i.target === "surah" ? "surah" : i.target) + '"' + (i.warn ? ' class="warn"' : "") + "><b>" + esc(i.where) + "</b>" + esc(i.msg) + "</a></li>").join("");
+    // per-view badges
+    const per = {};
+    r.issues.forEach((i) => { per[i.target] = (per[i.target] || 0) + 1; });
+    document.querySelectorAll(".nav a").forEach((a) => {
+      const k = a.getAttribute("data-view"); const b = a.querySelector(".badge");
+      b.textContent = per[k] ? per[k] + " to fix" : "";
+      b.hidden = !per[k];
+    });
+  }
+
+  function renderNav() {
+    const items = [{ k: "surah", lbl: "Surah overview", ar: doc.surah.nameAr }].concat(doc.verses.map((v) => ({ k: "v" + v.n, lbl: "Verse " + v.n, ar: v.arabic })));
+    document.getElementById("nav").innerHTML = items.map((it) => {
+      const cur = (view === "surah" ? "surah" : "v" + view) === it.k;
+      return '<a href="#' + it.k + '" data-view="' + it.k + '"' + (cur ? ' aria-current="page"' : "") + '><span class="lbl">' + esc(it.lbl) + '</span><span class="ar" lang="ar">' + esc(it.ar) + '</span><span class="badge" hidden></span></a>';
+    }).join("");
+  }
+
+  let panel = null; // "import" | null
+  function render() {
+    renderNav();
+    let h = "";
+    if (panel === "import") {
+      h += '<div class="panel"><strong>Import JSON</strong><span class="msg">Paste a study file copied from this editor. It replaces what is shown here.</span>' +
+        '<textarea id="import-text" aria-label="JSON to import"></textarea><div class="msg" id="import-msg"></div>' +
+        '<div class="item-tools" style="justify-content:flex-start"><button class="btn" type="button" id="import-go">Load</button><button class="btn" type="button" id="import-cancel">Cancel</button></div></div>';
+    }
+    h += view === "surah" ? renderSurah() : renderVerse(view);
+    document.getElementById("main").innerHTML = h;
+    renderChecks();
+    document.getElementById("mode-read").setAttribute("aria-pressed", mode === "read");
+    document.getElementById("mode-edit").setAttribute("aria-pressed", mode === "edit");
+  }
+
+  /* ---------- Events ---------- */
+  const main = document.getElementById("main");
+  main.addEventListener("input", (e) => {
+    const el = e.target, p = el.getAttribute("data-path");
+    if (!p) return;
+    let val = el.type === "checkbox" ? el.checked : el.value;
+    if (el.hasAttribute("data-list")) val = el.value.split("\n").map((s) => s.trim()).filter(Boolean);
+    setPath(p, val);
+    if (el.tagName === "SELECT") el.classList.toggle("needs", !val && /\.tag$/.test(p));
+    save();
+    if (el.hasAttribute("data-rerender")) render(); else renderChecks();
+  });
+  main.addEventListener("click", (e) => {
+    const t = e.target.closest("button"); if (!t) return;
+    if (t.id === "import-cancel") { panel = null; render(); return; }
+    if (t.id === "import-go") { doImport(); return; }
+    const add = t.getAttribute("data-add");
+    if (add) { getPath(add).push(BLANKS[t.getAttribute("data-kind")]()); save(); render(); return; }
+    const rem = t.getAttribute("data-remove");
+    if (rem) { const ks = rem.split("."); const i = +ks.pop(); getPath(ks.join(".")).splice(i, 1); save(); render(); return; }
+    const mv = t.getAttribute("data-move");
+    if (mv) {
+      const ks = mv.split("."); const i = +ks.pop(); const arr = getPath(ks.join(".")); const j = i + (+t.getAttribute("data-dir"));
+      if (j < 0 || j >= arr.length) return;
+      [arr[i], arr[j]] = [arr[j], arr[i]]; save(); render();
+    }
+  });
+
+  window.addEventListener("hashchange", () => { view = viewFromHash(); render(); window.scrollTo(0, 0); });
+  document.getElementById("mode-read").addEventListener("click", () => { mode = "read"; render(); });
+  document.getElementById("mode-edit").addEventListener("click", () => { mode = "edit"; render(); });
+
+  document.getElementById("btn-copy").addEventListener("click", () => {
+    const text = JSON.stringify(doc, null, 2);
+    const fallback = () => { panel = "import"; render(); const ta = document.getElementById("import-text"); ta.value = text; ta.select(); document.getElementById("import-msg").textContent = "Copying was blocked here. The JSON is selected below; copy it with your keyboard."; };
+    try {
+      navigator.clipboard.writeText(text).then(() => setStatus("Copied the study as JSON"), fallback);
+    } catch (err) { fallback(); }
+  });
+  document.getElementById("btn-import").addEventListener("click", () => { panel = panel === "import" ? null : "import"; render(); if (panel) document.getElementById("import-text").focus(); });
+  function doImport() {
+    const msg = document.getElementById("import-msg");
+    try {
+      const d = JSON.parse(document.getElementById("import-text").value);
+      if (!d || !d.surah || !Array.isArray(d.verses)) throw new Error("shape");
+      doc = d; panel = null; view = "surah"; history.replaceState(null, "", "#surah"); save(); render(); setStatus("Imported. Saved in this browser.");
+    } catch (err) {
+      msg.className = "msg err";
+      msg.textContent = err.message === "shape" ? "This JSON is not a study file. It needs \"surah\" and \"verses\"." : "This is not valid JSON. Check that you pasted the whole file.";
+    }
+  }
+  const resetBtn = document.getElementById("btn-reset");
+  resetBtn.addEventListener("click", () => {
+    if (!resetBtn.classList.contains("armed")) {
+      resetBtn.classList.add("armed"); resetBtn.textContent = "Click again to restore";
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => { resetBtn.classList.remove("armed"); resetBtn.textContent = "Restore original"; }, 4000);
+      return;
+    }
+    clearTimeout(resetTimer); resetBtn.classList.remove("armed"); resetBtn.textContent = "Restore original";
+    doc = clone(SEED); save(); render(); setStatus("Restored the original draft");
+  });
+
+  render();
+  let hadSaved = false;
+  try { hadSaved = !!localStorage.getItem(KEY); } catch (e) { /* storage unavailable */ }
+  setStatus(hadSaved ? "Loaded your saved edits from this browser" : "Showing the original draft");
+})();
+</script>
