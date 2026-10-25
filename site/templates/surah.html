@@ -135,6 +135,30 @@ details.asbab[open] summary::before { content: "−"; }
 .stack { display: grid; gap: 16px; }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: center; font-family: var(--f-ui); font-size: 12.5px; color: var(--dim); padding-top: 24px; border-top: 1px solid var(--line); }
 
+/* Ring composition */
+.ring { position: relative; display: grid; gap: 10px; padding-left: var(--ring-w, 40px); }
+.ring svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.ring path { fill: none; stroke: var(--gold); stroke-width: 1.4; opacity: .4; transition: opacity .2s, stroke-width .2s; }
+.ring path.on { opacity: 1; stroke-width: 2; }
+.r-unit { position: relative; display: grid; grid-template-columns: 2.2em minmax(0, 1fr); gap: 2px 12px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--raised); transition: border-color .2s; }
+.r-unit.center { border-color: rgba(232, 184, 74, .55); }
+.r-unit.on { border-color: var(--gold); }
+.r-unit .lt { font-family: var(--f-display); font-size: 24px; color: var(--gold); line-height: 1.2; grid-row: span 2; }
+.r-unit .ref { font-family: var(--f-ui); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.r-unit .ref b { color: var(--gold); font-weight: 500; }
+.r-unit p { margin: 0; font-size: 16px; }
+.r-pin { position: absolute; z-index: 2; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; border: 1px solid var(--gold); background: var(--night); color: var(--gold); font-family: var(--f-ui); font-size: 11.5px; display: grid; place-items: center; padding: 0; }
+.r-pin.on, .r-pin:hover { background: var(--gold); color: var(--night); }
+.r-notes { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.r-notes li { display: grid; grid-template-columns: 22px auto minmax(0, 1fr); gap: 4px 12px; align-items: baseline; padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+.r-notes li.on, .r-notes li:hover { background: var(--purple-soft); }
+.r-notes .num { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold); font-family: var(--f-ui); font-size: 11.5px; display: grid; place-items: center; align-self: center; }
+.r-notes .pairlbl { font-family: var(--f-display); font-size: 19px; color: var(--gold); white-space: nowrap; }
+.r-notes p { margin: 0; font-size: 15.5px; }
+.r-edit { display: grid; gap: 10px; }
+.r-edit .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--f-ui); font-size: 13px; color: var(--muted); }
+.r-edit select { background: var(--night); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; font: inherit; }
+
 /* Word card */
 #card { position: fixed; z-index: 30; width: min(380px, calc(100vw - 24px)); max-height: min(72vh, 620px); overflow: auto; background: var(--raised); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; display: grid; gap: 14px; box-shadow: 0 18px 50px rgba(0, 0, 0, .55); }
 #card .c-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
@@ -259,11 +283,15 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
     layer: () => ({ reading: "", translation: "", note: "", explanation: blank(), tafsir: [] }),
     word: () => ({ ar: "", tr: "", root: "", rootTr: "", rootMeaning: "", meanings: [], translations: [], why: blank(), special: null, lexSource: "", lexReview: false }),
     translation: () => ({ text: "", used: false }),
+    ringunit: () => ({ label: "", ref: "", text: "" }),
+    ringpair: () => ({ a: 0, b: 1, note: "" }),
     text: () => ""
   };
 
   const wide = matchMedia("(min-width: 761px)");
   let doc = load();
+  if (!doc.surah.ring.units) doc.surah.ring.units = [];
+  if (!doc.surah.ring.pairs) doc.surah.ring.pairs = [];
   let editing = false;
 
   function load() {
@@ -335,6 +363,8 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
     doc.verses.forEach((v, vi) => { h += '<div class="divider" aria-hidden="true">✦</div>' + verseHtml(v, vi); });
     h += '<div class="divider" aria-hidden="true">✦</div>' + wholeHtml();
     document.getElementById("main").innerHTML = h;
+    drawRing();
+    if (document.fonts) document.fonts.ready.then(drawRing);
     if (editing) renderChecks();
   }
 
@@ -401,7 +431,7 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
 
   function wholeHtml() {
     const s = doc.surah;
-    let h = '<section class="whole" id="whole"><h2>The surah as a whole</h2>';
+    let h = '<section class="whole" id="whole"><h2>The surah as a whole</h2>' + ringHtml();
     h += '<div class="block"><h3>The miracle in the surah</h3><div class="notes">' + s.miracle.map((m, i) => noteHtml("surah.miracle." + i)).join("") + "</div>" + addBtn("surah.miracle", "note", "note") + "</div>";
     h += '<div class="block"><h3>Central theme</h3><div class="stack">' + s.theme.map((c, i) => "<div>" + claim("surah.theme." + i) + delBtn("surah.theme." + i) + "</div>").join("") + "</div>" + addBtn("surah.theme", "claim", "claim") + "</div>";
     const link = (k, lbl) => '<div class="stack"><div><span class="label">' + lbl + "</span>" + ed("surah.links." + k + ".surah", "h4", "", "Surah name") + "</div>" +
@@ -409,10 +439,92 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
       addBtn("surah.links." + k + ".claims", "claim", "link") + "</div>";
     h += '<div class="block"><h3>Neighbouring surahs</h3><div class="pair">' + link("previous", "Before") + link("next", "After") + "</div></div>";
     h += '<div class="block"><h3>Place of revelation</h3>' + claim("surah.revelation") + "</div>";
-    h += '<div class="block"><h3>Ring structure</h3>' + (editing ? '<div class="ebar-row">' + btn('data-toggle="surah.ring.supported" data-rerender="1"', s.ring.supported ? "Ring structure claimed ✓" : "No ring structure claimed") + "</div>" : "") + claim("surah.ring.claim") + "</div>";
+
     h += '<div class="legend"><span class="tag consensus">Consensus</span><span class="tag scholar">Scholar\'s view (named)</span><span class="tag reflection">Reflection</span><span><span class="verify">verify</span> needs scholar review</span></div>';
     return h + "</section>";
   }
+
+  /* ---------- Ring composition ---------- */
+  // Shown to readers only when a ring is claimed AND a named scholar backs it (tag "scholar" with a name).
+  function ringVerified(r) { return r.supported && r.claim && r.claim.tag === "scholar" && !empty(r.claim.scholar) && r.units.length >= 3; }
+  function ringPairs(r) {
+    const ps = r.pairs.map((q, i) => ({ i, a: Math.min(+q.a, +q.b), b: Math.max(+q.a, +q.b), note: q.note }))
+      .filter((q) => q.a !== q.b && q.a >= 0 && q.b < r.units.length);
+    ps.forEach((q) => { q.level = ps.filter((o) => o.a < q.a && o.b > q.b).length; });
+    return ps;
+  }
+  function ringHtml() {
+    const r = doc.surah.ring;
+    if (!editing && !ringVerified(r)) return "";
+    const paired = new Set(); ringPairs(r).forEach((q) => { paired.add(q.a); paired.add(q.b); });
+    let h = '<div class="block"><h3>Ring composition</h3>';
+    if (editing) {
+      h += '<div class="ebar-row">' + btn('data-toggle="surah.ring.supported"', r.supported ? "Ring composition claimed ✓" : "No ring composition (click to claim one)") +
+        (r.units.length ? "" : btn('data-ringsample="1"', "Fill a sample layout")) + "</div>" +
+        '<p class="quiet">Readers see the diagram only when a ring is claimed and the claim below is tagged Scholar\'s view with the scholar named.</p>';
+    }
+    h += claim("surah.ring.claim", "Who verified this ring, and where");
+    if (r.units.length) {
+      h += '<div class="ring" id="ring">' + r.units.map((u, i) => {
+        const p = "surah.ring.units." + i;
+        return '<div class="r-unit' + (paired.has(i) ? "" : " center") + '" data-ru="' + i + '">' +
+          ed(p + ".label", "span", "lt", "A") +
+          '<span class="ref">' + ed(p + ".ref", "span", "", "Verses") + (paired.has(i) ? "" : " · <b>Center</b>") + "</span>" +
+          ed(p + ".text", "p", "", "What this section says") +
+          (editing ? '<span></span><span class="ebar-row">' + delBtn("surah.ring.units." + i) + "</span>" : "") + "</div>";
+      }).join("") + "</div>";
+    }
+    if (editing) h += addBtn("surah.ring.units", "ringunit", "section");
+    const ps = ringPairs(r);
+    if (ps.length || editing) {
+      h += '<ul class="r-notes">' + r.pairs.map((q, i) => {
+        const lbl = (k) => esc((r.units[+q[k]] || {}).label || "?");
+        if (editing) {
+          const opts = (k) => r.units.map((u, ui) => '<option value="' + ui + '"' + (+q[k] === ui ? " selected" : "") + ">" + esc(u.label || "Section " + (ui + 1)) + "</option>").join("");
+          return '<li class="r-edit"><div class="row"><span class="num">' + (i + 1) + '</span>Ring joins <select data-path="surah.ring.pairs.' + i + '.a" aria-label="First section">' + opts("a") +
+            '</select> and <select data-path="surah.ring.pairs.' + i + '.b" aria-label="Second section">' + opts("b") + "</select>" + delBtn("surah.ring.pairs." + i) + "</div>" +
+            ed("surah.ring.pairs." + i + ".note", "p", "", "What connects these two sections") + "</li>";
+        }
+        return '<li data-ring="' + i + '"><span class="num">' + (i + 1) + '</span><span class="pairlbl">' + lbl("a") + " ↔ " + lbl("b") + "</span><p>" + esc(q.note) + "</p></li>";
+      }).join("") + "</ul>";
+      if (editing && r.units.length >= 2) h += addBtn("surah.ring.pairs", "ringpair", "ring");
+    }
+    return h + "</div>";
+  }
+  function drawRing() {
+    const box = document.getElementById("ring"); if (!box) return;
+    const r = doc.surah.ring, ps = ringPairs(r);
+    box.querySelectorAll("svg, .r-pin").forEach((e) => e.remove());
+    const maxL = ps.reduce((m, q) => Math.max(m, q.level), 0), step = innerWidth < 640 ? 24 : 30;
+    box.style.setProperty("--ring-w", ps.length ? (maxL + 1) * step + 22 + "px" : "0px");
+    if (!ps.length) return;
+    const units = box.querySelectorAll(".r-unit"), bb = box.getBoundingClientRect();
+    const x0 = units[0].getBoundingClientRect().left - bb.left;
+    const y = (i) => { const u = units[i].getBoundingClientRect(); return u.top - bb.top + u.height / 2; };
+    let svg = '<svg aria-hidden="true">';
+    ps.forEach((q) => {
+      const off = (maxL - q.level + 1) * step, xl = x0 - off - 4, ya = y(q.a), yb = y(q.b);
+      svg += '<path data-ring="' + q.i + '" d="M' + x0 + " " + ya + " C" + xl + " " + ya + " " + xl + " " + yb + " " + x0 + " " + yb + '"/>';
+    });
+    box.insertAdjacentHTML("afterbegin", svg + "</svg>");
+    ps.forEach((q) => {
+      // pin sits on the curve; outer rings put it higher up so pins of nested rings never overlap
+      const off = (maxL - q.level + 1) * step, xl = x0 - off - 4, ya = y(q.a), yb = y(q.b);
+      const t = maxL ? .5 - .22 * (maxL - q.level) / maxL : .5, u = 1 - t;
+      const ax = x0 * (u * u * u + t * t * t) + xl * 3 * u * t, ay = ya * (u * u * u + 3 * u * u * t) + yb * (3 * u * t * t + t * t * t);
+      box.insertAdjacentHTML("beforeend", '<button type="button" class="r-pin" data-ring="' + q.i + '" style="left:' + ax + "px;top:" + ay + 'px" aria-label="Ring ' + (q.i + 1) + '">' + (q.i + 1) + "</button>");
+    });
+  }
+  let ringOn = null;
+  function lightRing(i) {
+    ringOn = i;
+    const q = i == null ? null : doc.surah.ring.pairs[i];
+    document.querySelectorAll("[data-ring]").forEach((e) => e.classList.toggle("on", i != null && +e.dataset.ring === i));
+    document.querySelectorAll(".r-unit").forEach((e) => e.classList.toggle("on", !!q && (+e.dataset.ru === +q.a || +e.dataset.ru === +q.b)));
+  }
+  document.addEventListener("mouseover", (e) => { const t = e.target.closest && e.target.closest("[data-ring]"); if (t) lightRing(+t.dataset.ring); else if (ringOn != null && !e.target.closest(".ring, .r-notes")) lightRing(null); });
+  document.addEventListener("click", (e) => { const t = e.target.closest("[data-ring]"); if (t) lightRing(ringOn === +t.dataset.ring ? null : +t.dataset.ring); });
+  addEventListener("resize", drawRing);
 
   /* ---------- Word card ---------- */
   const card = document.getElementById("card");
@@ -528,6 +640,12 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
     const m = /^verses\.(\d+)\.words\.(\d+)\.ar$/.exec(p);
     if (m) document.querySelectorAll('#main .w[data-v="' + m[1] + '"][data-w="' + m[2] + '"]').forEach((w) => { w.textContent = get(p); });
     save(); renderChecks();
+    if (p.startsWith("surah.ring.")) drawRing();
+  });
+  document.addEventListener("change", (e) => {
+    const el = e.target;
+    if (!editing || el.tagName !== "SELECT" || !el.dataset.path) return;
+    set(el.dataset.path, +el.value); save(); render();
   });
   document.addEventListener("paste", (e) => {
     if (!e.target.closest || !e.target.closest("[contenteditable]")) return;
@@ -546,6 +664,12 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
     else if (d.cycle) { const c = get(d.cycle); c.tag = ORDER[(ORDER.indexOf(c.tag) + 1) % ORDER.length]; }
     else if (d.toggle) set(d.toggle, !get(d.toggle));
     else if (d.setclaim) set(d.setclaim, blank());
+    else if (d.ringsample) {
+      // a neutral placeholder layout to edit, not a claim about this surah
+      const r = doc.surah.ring;
+      r.units = ["A", "B", "C", "B′", "A′"].map((l, i) => ({ label: l, ref: "Verses …", text: i === 2 ? "The center: the section the ring turns on" : "Section " + l }));
+      r.pairs = [{ a: 0, b: 4, note: "What links the opening and the closing" }, { a: 1, b: 3, note: "What links these two" }];
+    }
     else if (d.unset) set(d.unset, null);
     else if (d.move) {
       const ks = d.move.split("."), i = +ks.pop(), arr = get(ks.join(".")), j = i + (+d.dir);
@@ -573,7 +697,7 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
     s.miracle.forEach((c) => add(c, "Surah · " + (c.title || "Miracle note"), "whole"));
     add(s.revelation, "Surah · Place of revelation", "whole");
     ["previous", "next"].forEach((k) => s.links[k].claims.forEach((c) => add(c, "Surah · Neighbouring surah", "whole")));
-    add(s.ring.claim, "Surah · Ring structure", "whole");
+    if (s.ring.supported) add(s.ring.claim, "Surah · Ring composition", "whole");
     doc.verses.forEach((v) => {
       const V = "Verse " + v.n, at = "v" + v.n;
       v.words.forEach((w) => { add(w.why, V + " · " + (w.tr || "word") + " · why", at); add(w.special, V + " · " + (w.tr || "word") + " · beyond the dictionary", at); });
@@ -595,6 +719,12 @@ p[contenteditable="true"], div[contenteditable="true"] { display: block; }
       if (c.review) review++;
       BANNED.forEach((b) => { if (b.re.test(c.text)) issues.push({ where, at, msg: b.msg, warn: true }); });
     });
+    const ring = doc.surah.ring;
+    if (ring.supported) {
+      if (ring.claim.tag !== "scholar" || empty(ring.claim.scholar)) issues.push({ where: "Surah · Ring composition", at: "whole", msg: "A ring is shown only when a named scholar has verified it. Tag the claim Scholar's view and name the scholar." });
+      if (ring.units.length < 3) issues.push({ where: "Surah · Ring composition", at: "whole", msg: "A ring needs at least three sections." });
+      ring.pairs.forEach((q, i) => { if (empty(q.note)) issues.push({ where: "Surah · Ring " + (i + 1), at: "whole", msg: "Explain what connects the two sections.", warn: true }); });
+    }
     doc.verses.forEach((v) => {
       const V = "Verse " + v.n, at = "v" + v.n;
       if (empty(v.literal)) issues.push({ where: V, at, msg: "Literal translation is missing." });

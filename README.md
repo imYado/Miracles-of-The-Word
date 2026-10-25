@@ -10,6 +10,8 @@ A verse-by-verse English study of the Qurʾān for readers who don't know Arabic
 
 Right now only Sūrat al-Ikhlāṣ (112) is filled in, as a demo.
 
+A surah can carry a ring composition (sections, and the rings that pair them, each with what connects the two). Readers see the diagram only when a ring is claimed and the claim is tagged Scholar's view with the scholar named. al-Ikhlāṣ has none.
+
 ## Editing a surah
 
 Open `site/112-al-ikhlas.html` and press **Edit**. Every piece of text becomes editable in place; click an Arabic word to edit its card. The bar at the bottom shows the project rules check. Edits save in your browser. Use **Copy JSON** and paste the result into the surah's file in `data/surahs/` to keep them, then rebuild.

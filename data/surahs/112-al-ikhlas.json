@@ -112,12 +112,14 @@
     "ring": {
       "supported": false,
       "claim": {
-        "text": "No ring structure is claimed. Four short verses are too few to establish one; the aḥad framing is noted above as a reflection.",
+        "text": "No ring composition is claimed for this surah. Four short verses are too few to establish one; the aḥad framing is noted above as a reflection.",
         "tag": "reflection",
         "scholar": "",
         "source": "",
         "review": false
-      }
+      },
+      "units": [],
+      "pairs": []
     }
   },
   "verses": [
