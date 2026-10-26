@@ -1,0 +1,8 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+rootTr: pronoun, no root
+meanings:
+  - he / it (third person, masculine singular)
+  - the matter, the fact (ḍamīr al-shaʾn)
+translations:
+  - He
+  - The truth is / The matter is

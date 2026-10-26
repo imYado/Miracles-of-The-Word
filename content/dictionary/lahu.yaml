@@ -1,0 +1,7 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+rootTr: preposition + pronoun
+meanings:
+  - for Him, to Him
+translations:
+  - to Him
+  - for Him

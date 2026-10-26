@@ -1,0 +1,19 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+root: ك ف أ
+rootTr: k-f-ʾ
+rootMeaning: equality, being a match
+meanings:
+  - an equal, a match
+  - a peer in rank or standing
+  - a counterpart
+translations:
+  - equal
+  - peer
+  - match
+  - comparable
+lexicon:
+  - id: maqayis
+    loc: k-f-ʾ
+  - id: lane
+    loc: k-f-ʾ
+review: true

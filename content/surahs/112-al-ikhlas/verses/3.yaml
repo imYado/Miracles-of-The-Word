@@ -1,0 +1,100 @@
+# al-Ikhlāṣ 112:3
+n: 3
+literal: Not [has He] begotten, and not [has He] been begotten.
+words:
+  - entry: lam
+    ar: لَمْ
+    tr: lam
+    used:
+      - did not
+      - has not
+    why:
+      text: 'lam with the present-form verb gives a past negation: "did not".'
+      tag: consensus
+  - entry: yalid
+    ar: يَلِدْ
+    tr: yalid
+    used:
+      - beget
+    why:
+      text: Active voice, with God as the subject. It denies that He has a child.
+      tag: consensus
+    special:
+      text: This answers people who claimed God has a son (2:116, 19:88) and the Arabs who called the angels His daughters (16:57, 37:149).
+      tag: consensus
+      sources:
+        - id: quran
+          loc: 2:116, 19:88, 16:57, 37:149
+  - entry: wa-lam
+    ar: وَلَمْ
+    tr: wa-lam
+    used:
+      - and not
+    why:
+      text: wa joins the second negation to the first.
+      tag: consensus
+  - entry: yulad
+    ar: يُولَدْ
+    tr: yūlad
+    used:
+      - be begotten
+    why:
+      text: Passive voice of the same root. It denies that He has a parent or any origin.
+      tag: consensus
+    special:
+      text: 'Having no parent means having no beginning. Compare 57:3: "He is the First and the Last."'
+      tag: reflection
+layers:
+  - reading: A plain denial
+    translation: He has not begotten, and He has not been begotten.
+    note: He has no child and no parent.
+    explanation:
+      text: "The plain meaning of lam with the jussive: neither of these has happened."
+      tag: consensus
+    tafsir:
+      - text: How could He have a son when He has no companion? (6:101). The Qurʾān answers the same claim in several places.
+        tag: consensus
+        sources:
+          - id: quran
+            loc: 6:101; 19:88–92
+      - text: He has no child, no parent and no consort.
+        tag: scholar
+        scholar: Ibn Kathīr
+        sources:
+          - id: ibnkathir
+            loc: on 112:3
+        review: true
+  - reading: Never, at any time
+    translation: He never begets, and He was never begotten.
+    note: Not only in the past, but at no time at all.
+    explanation:
+      text: The verse describes God's nature, so the past negation can be read as covering all time.
+      tag: reflection
+      review: true
+    tafsir:
+      - text: Everything that is born will die, and everything that dies is inherited. God does not die and is not inherited.
+        tag: scholar
+        scholar: Narration of Ubayy ibn Kaʿb, recorded by al-Tirmidhī
+        sources:
+          - id: tirmidhi
+            loc: Book of Tafsīr, on 112
+        review: true
+miracle:
+  - topic: Word order
+    title: Begetting comes first
+    text: '"Has not begotten" comes before "has not been begotten". People had claimed that God has children; nobody claimed that He was born. The verse answers the claim that was actually made first.'
+    tag: reflection
+    sources:
+      - text: A common explanation in tafsir; a named source is still needed
+    review: true
+  - topic: Rhetoric
+    title: One root, two directions
+    text: "The same root in two voices: yalid (begets) and yūlad (is begotten). Together they close off both directions: no descendants, no ancestors."
+    tag: reflection
+  - topic: Sound
+    title: Perfect balance
+    text: "Two halves of equal length and pattern: lam yalid / wa-lam yūlad. The balance itself sounds like a closed matter."
+    tag: consensus
+asbab:
+  exists: false
+  note: No separate narration for this verse. See verse 1 for the surah as a whole.

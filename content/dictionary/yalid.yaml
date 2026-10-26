@@ -1,0 +1,17 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+root: و ل د
+rootTr: w-l-d
+rootMeaning: birth, offspring
+meanings:
+  - to beget, to father
+  - to give birth
+translations:
+  - beget
+  - father
+  - give birth
+lexicon:
+  - id: maqayis
+    loc: w-l-d
+  - id: lane
+    loc: w-l-d
+review: true

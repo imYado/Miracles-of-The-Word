@@ -1,0 +1,9 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+root: و ل د
+rootTr: w-l-d
+rootMeaning: birth, offspring
+meanings:
+  - to be begotten, to be born
+translations:
+  - be begotten
+  - be born

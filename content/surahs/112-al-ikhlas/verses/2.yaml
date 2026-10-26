@@ -1,0 +1,134 @@
+# al-Ikhlāṣ 112:2
+n: 2
+literal: Allah [is] the Ṣamad.
+words:
+  - entry: allah
+    ar: ٱللَّهُ
+    tr: Allāhu
+    used:
+      - Allah
+    why:
+      text: Scholars differ on whether the name is derived (from ilāh, "the one who is worshipped") or is a proper name with no derivation. Both views are old, and this study does not choose between them.
+      tag: scholar
+      scholar: al-Rāghib discusses the derivation; the disagreement is reported among grammarians
+      sources:
+        - id: mufradat
+          loc: entry ʾ-l-h
+      review: true
+    special:
+      text: A proper name used only for the one true God. Grammarians note that it takes no plural and no dual.
+      tag: consensus
+      review: true
+  - entry: samad
+    ar: ٱلصَّمَدُ
+    tr: al-Ṣamadu
+    used:
+      - the Eternal Refuge
+      - the Self-Sufficient
+      - the Master
+      - the Everlasting
+    why:
+      text: "Ibn Fāris gives the root two core senses: aiming for something, and solidity. The early exegetes explain al-Ṣamad with several meanings built on these, and al-Ṭabarī collects their reports. All of them are carried at once."
+      tag: scholar
+      scholar: Ibn Fāris; al-Ṭabarī
+      sources:
+        - id: maqayis
+          loc: ṣ-m-d
+        - id: tabari
+          loc: on 112:2
+      review: true
+    special:
+      text: "In the narration of Ubayy ibn Kaʿb, al-Ṣamad is explained by the next verse: the One who does not beget and was not begotten, because everything born will die and everything that dies is inherited, and God does not die and is not inherited."
+      tag: scholar
+      scholar: Narration of Ubayy ibn Kaʿb, recorded by al-Tirmidhī
+      sources:
+        - id: tirmidhi
+          loc: Book of Tafsīr, on 112
+      review: true
+layers:
+  - reading: The One everyone turns to
+    translation: Allah is the One to whom all turn in their needs.
+    note: Every creature, knowingly or not, turns to Him in need.
+    explanation:
+      text: "From the root sense of aiming for and turning to: every creature, knowingly or not, is headed toward Him in its need."
+      tag: reflection
+    tafsir:
+      - text: Reports from early exegetes explain al-Ṣamad as the master to whom people turn when they need something.
+        tag: scholar
+        scholar: Reports collected by al-Ṭabarī
+        sources:
+          - id: tabari
+            loc: on 112:2
+        review: true
+  - reading: Solid, needing nothing
+    translation: Allah is the Self-Sufficient, with no hollowness and no need.
+    note: Nothing hollow, nothing lacking. He needs nothing.
+    explanation:
+      text: "From the root sense of solidity: something with no hollow inside, nothing that needs filling. He neither eats nor drinks."
+      tag: reflection
+    tafsir:
+      - text: A group of the early exegetes explained al-Ṣamad as the one who has no hollow inside.
+        tag: scholar
+        scholar: Reported by al-Ṭabarī and Ibn Kathīr
+        sources:
+          - id: tabari
+            loc: on 112:2
+          - id: ibnkathir
+            loc: on 112:2
+        review: true
+  - reading: Perfect in mastery
+    translation: Allah is the Master, perfect in His mastery.
+    note: The one everyone relies on, without any limit.
+    explanation:
+      text: A ṣamad among the Arabs was a chief whom people relied on. Applied to God, the word means a mastery with no flaw or limit.
+      tag: reflection
+      review: true
+    tafsir:
+      - text: The master who is perfect in his mastery, the noble who is perfect in his nobility, perfect in knowledge, wisdom and every attribute.
+        tag: scholar
+        scholar: Ibn ʿAbbās (through ʿAlī ibn Abī Ṭalḥa), as reported by Ibn Kathīr
+        sources:
+          - id: ibnkathir
+            loc: on 112:2
+        review: true
+  - reading: The Everlasting
+    translation: Allah is the Everlasting, who remains after His creation.
+    note: He remains when everything else is gone.
+    explanation:
+      text: The one who remains when everything else ends.
+      tag: reflection
+    tafsir:
+      - text: al-Ṣamad is the Everlasting, who remains after His creation.
+        tag: scholar
+        scholar: al-Ḥasan al-Baṣrī and Qatāda, as reported by Ibn Kathīr
+        sources:
+          - id: ibnkathir
+            loc: on 112:2
+        review: true
+miracle:
+  - topic: Word choice
+    title: A word used once
+    text: "al-Ṣamad appears only here in the whole Qurʾān. One rare word holds what English needs four words for: refuge, self-sufficient, master, everlasting."
+    tag: consensus
+    review: true
+  - topic: Definite / indefinite
+    title: Both ends definite
+    text: "Both parts of the sentence are definite: Allāh, al-Ṣamad. In Arabic rhetoric this pattern can express exclusivity: Allah, and only Allah, is al-Ṣamad."
+    tag: scholar
+    scholar: Ibn ʿĀshūr
+    sources:
+      - id: tahrir
+        loc: on 112:2
+    review: true
+  - topic: Word order
+    title: The name, repeated
+    text: The verse repeats the name Allāh instead of saying "He is al-Ṣamad". Each verse then stands on its own as a full statement about God by name.
+    tag: reflection
+  - topic: Rhetoric
+    title: No "and"
+    text: There is no "and" between verse 1 and verse 2. The second follows directly, as if it explains the first.
+    tag: reflection
+    review: true
+asbab:
+  exists: false
+  note: No separate narration for this verse. See verse 1 for the surah as a whole.

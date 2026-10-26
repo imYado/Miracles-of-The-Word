@@ -1,0 +1,11 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+root: ك و ن
+rootTr: k-w-n
+rootMeaning: being, existing
+meanings:
+  - to be
+  - to exist, to come about
+translations:
+  - has been
+  - is
+  - exists
