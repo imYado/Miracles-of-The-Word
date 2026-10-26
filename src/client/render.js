@@ -113,14 +113,14 @@ export function createView(state) {
         ed(p + ".translation", "p", "tl", "Clear English translation") +
         ed(p + ".note", "p", "lnote", "A short, simple note on this reading") +
         delBtn(p, "Remove layer") + "</div></div>" +
-        // open by default; the page script folds these on narrow screens
-        '<details class="lside" open><summary>Sources and details</summary><div class="in">' +
+        // hidden until the reader hovers the layer (or taps the toggle); always open while editing
+        '<div class="lside' + (E ? " open" : "") + '"><button type="button" class="lside-toggle" aria-expanded="' + (E ? "true" : "false") + '">Sources and details</button><div class="lwrap"><div class="in">' +
         ed(p + ".reading", "span", "reading", "Which meaning this layer follows") +
         claim(p + ".explanation", "Explain this layer in detail") +
         '<div class="tafsir"><span class="label">Tafsir</span>' +
         l.tafsir.map((t, ti) => tafsirHtml(p + ".tafsir." + ti)).join("") +
         (!l.tafsir.length && !E ? '<p class="quiet">No tafsir recorded for this reading yet.</p>' : "") +
-        addBtn(p + ".tafsir", "claim", "tafsir") + "</div></div></details></article>";
+        addBtn(p + ".tafsir", "claim", "tafsir") + "</div></div></div></div></article>";
     });
     h += addBtn(b + ".layers", "layer", "layer") + "</div>";
 

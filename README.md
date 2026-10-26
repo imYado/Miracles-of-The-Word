@@ -1,4 +1,4 @@
-# The Miracles of The Word
+# Miracles of The Word
 
 A verse-by-verse English study of the Qurʾān's language, for readers who don't know Arabic.
 Live at https://miraclesoftheword.vercel.app
