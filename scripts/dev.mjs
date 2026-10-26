@@ -43,4 +43,4 @@ http.createServer((req, res) => {
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, "index.html");
   if (!fs.existsSync(file)) return send(res, 404, TYPES[".html"], fs.readFileSync(path.join(dist, "404.html")));
   send(res, 200, TYPES[path.extname(file)] || "application/octet-stream", fs.readFileSync(file));
-}).listen(port, () => console.log("The Miracles of The Word is running at http://localhost:" + port + "  (Ctrl+C to stop)"));
+}).listen(port, () => console.log("Miracles of The Word is running at http://localhost:" + port + "  (Ctrl+C to stop)"));

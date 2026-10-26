@@ -8,12 +8,10 @@ const dev = document.querySelector('meta[name="motw-dev"]') != null;
 const state = { doc, editing: false };
 const view = createView(state);
 const main = document.getElementById("main");
-const narrow = matchMedia("(max-width: 760px)");
 const hover = matchMedia("(hover: hover)");
 
 /* ---------- Page ---------- */
 function afterRender() {
-  if (!state.editing && narrow.matches) main.querySelectorAll("details.lside").forEach((d) => d.removeAttribute("open"));
   drawRing();
   if (document.fonts) document.fonts.ready.then(drawRing);
   markOn();
@@ -24,6 +22,15 @@ function rerender() {
   afterRender();
   scrollTo(0, y);
 }
+
+/* ---------- Sources and details under each layer ---------- */
+// Hovering a layer previews its box (CSS); clicking or tapping the toggle keeps it open.
+document.addEventListener("click", (e) => {
+  const t = e.target.closest(".lside-toggle"); if (!t) return;
+  const box = t.closest(".lside"), open = !box.classList.contains("open");
+  box.classList.toggle("open", open);
+  t.setAttribute("aria-expanded", open);
+});
 
 /* ---------- Ring composition ---------- */
 function drawRing() {

@@ -42,7 +42,7 @@ export function build(root, { dev = false } = {}) {
     const s = doc.surah;
     const main = createView({ doc, editing: false }).page();
     page(doc.slug + "/index.html", {
-      title: "Sūrat " + esc(s.nameTr) + " · The Miracles of The Word",
+      title: "Sūrat " + esc(s.nameTr) + " · Miracles of The Word",
       description: esc(s.tagline || "A verse-by-verse study of Sūrat " + s.nameTr),
       url: SITE_URL + "/" + doc.slug,
       body: fill(tpl("surah.html"), { main, doc: safeJson(doc), v }),
@@ -55,12 +55,12 @@ export function build(root, { dev = false } = {}) {
     return `<li><a href="/${d.slug}"><span class="num">${s.number}</span><span class="en">${esc(s.nameTr)}<small>${esc(s.nameEn)} · ${d.verses.length} verses</small></span><span class="ar" lang="ar">${esc(s.nameAr)}</span></a></li>`;
   }).join("");
   page("index.html", {
-    title: "The Miracles of The Word",
+    title: "Miracles of The Word",
     description: "A verse-by-verse study of the Qurʾān's language for English readers: every word's root and meanings, the layers of meaning in each verse, and the linguistic miracle behind them.",
     url: SITE_URL + "/",
     body: fill(tpl("index.html"), { list, v }),
   });
-  page("404.html", { title: "Page not found · The Miracles of The Word", description: "", url: SITE_URL + "/", body: fill(tpl("404.html"), { v }) });
+  page("404.html", { title: "Page not found · Miracles of The Word", description: "", url: SITE_URL + "/", body: fill(tpl("404.html"), { v }) });
 
   fs.writeFileSync(path.join(out, "sitemap.xml"),
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
