@@ -24,12 +24,19 @@ function rerender() {
 }
 
 /* ---------- Sources and details under each layer ---------- */
-// Hovering a layer previews its box (CSS); clicking or tapping the toggle keeps it open.
+// Hovering a layer opens its box (CSS); the toggle opens and closes it, also while hovering.
 document.addEventListener("click", (e) => {
   const t = e.target.closest(".lside-toggle"); if (!t) return;
-  const box = t.closest(".lside"), open = !box.classList.contains("open");
-  box.classList.toggle("open", open);
-  t.setAttribute("aria-expanded", open);
+  const box = t.closest(".lside");
+  const shown = box.classList.contains("open") || (hover.matches && !box.classList.contains("shut") && box.closest(".layer").matches(":hover"));
+  box.classList.toggle("open", !shown);
+  box.classList.toggle("shut", shown);
+  t.setAttribute("aria-expanded", !shown);
+});
+// a box closed while hovering may open by hover again once the pointer has left its layer
+document.addEventListener("mouseout", (e) => {
+  const layer = e.target.closest(".layer");
+  if (layer && !layer.contains(e.relatedTarget)) layer.querySelector(".lside").classList.remove("shut");
 });
 
 /* ---------- Ring composition ---------- */

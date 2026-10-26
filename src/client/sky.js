@@ -1,10 +1,11 @@
 // The night sky behind every page: small stars, a few of them gold, some slowly twinkling.
-// The sky moves with the page as you scroll. It is made of tiles that are generated from their
+// The sky drifts slowly as you scroll, slower than the page. It is made of tiles that are generated from their
 // position, so it goes on as far as the page does, never repeats and never shows an edge.
 
 const sky = document.getElementById("sky"), ctx = sky.getContext("2d");
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const TILE = 900, DENSITY = 7000;
+const DEPTH = .3;   // the sky moves at this fraction of the scroll, so it feels far away
 let w = 0, h = 0, tiles = new Map();
 
 // small seeded random numbers, so a tile always gets the same stars
@@ -34,7 +35,7 @@ function size() {
 }
 function draw(t) {
   ctx.clearRect(0, 0, w, h);
-  const y0 = scrollY;
+  const y0 = scrollY * DEPTH;
   for (let k = Math.floor(y0 / TILE); k * TILE < y0 + h; k++) {
     const top = k * TILE - y0;
     for (const s of tile(k)) {

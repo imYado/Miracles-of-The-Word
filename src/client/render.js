@@ -93,8 +93,6 @@ export function createView(state) {
       "<h1>Sūrat " + esc(s.nameTr) + "</h1>" +
       '<div class="meta">' + esc(s.nameEn) + " · Surah " + s.number + " · " + doc.verses.length + " verses</div>" +
       ed("surah.tagline", "p", "tagline", "One line about the surah") + "</section>";
-    h += '<section class="recite"><p class="mushaf" lang="ar">' + doc.verses.map((v, i) => wordsHtml(i)).join(" ") + "</p>" +
-      '<p class="hint"><span class="hover">Hover over a word to see its meanings</span><span class="tap">Tap a word to see its meanings</span></p></section>';
     doc.verses.forEach((v, vi) => { h += '<div class="divider" aria-hidden="true">✦</div>' + verseHtml(v, vi); });
     return h + '<div class="divider" aria-hidden="true">✦</div>' + wholeHtml();
   }
@@ -104,7 +102,7 @@ export function createView(state) {
     let h = '<section class="verse" id="v' + v.n + '"><div class="v-label">Verse ' + v.n + "</div>" +
       '<p class="ayah" lang="ar">' + wordsHtml(vi) + "</p>";
     if (E) h += '<div class="ebar-row" style="justify-content:center">' + addBtn(b + ".words", "word", "word") + '<span class="label">Click a word to edit it</span></div>';
-    h += '<div class="literal"><span class="label">Word for word</span>' + (E ? ed(b + ".literal", "p", "", "Literal translation, added words in [brackets]") : "<p>" + literalHtml(v.literal) + "</p>") + "</div>";
+    h += '<div class="literal">' + (E ? ed(b + ".literal", "p", "", "Literal translation, added words in [brackets]") : "<p>" + literalHtml(v.literal) + "</p>") + "</div>";
 
     h += '<div class="block"><h3>Layers of meaning</h3>';
     v.layers.forEach((l, li) => {
