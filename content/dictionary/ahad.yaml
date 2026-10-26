@@ -1,0 +1,22 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+root: و ح د
+rootTr: w-ḥ-d (hamza replaces an original wāw)
+rootMeaning: oneness, being alone
+meanings:
+  - one
+  - single, alone
+  - unique, with no second
+  - (after a negation) anyone at all
+translations:
+  - One
+  - Unique
+  - the One
+  - Single
+  - anyone
+  - no one (with the negation)
+lexicon:
+  - id: mufradat
+    loc: entry aḥad
+  - id: maqayis
+    loc: w-ḥ-d
+review: true

@@ -1,0 +1,13 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+root: أ ل ه
+rootTr: ʾ-l-h (disputed)
+rootMeaning: worship, the one worshipped
+meanings:
+  - the proper name of God
+translations:
+  - Allah
+  - God
+lexicon:
+  - id: mufradat
+    loc: entry ʾ-l-h
+review: true

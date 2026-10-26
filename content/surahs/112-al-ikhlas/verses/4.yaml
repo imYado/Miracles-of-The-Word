@@ -1,0 +1,122 @@
+# al-Ikhlāṣ 112:4
+n: 4
+literal: And not has been for Him [an] equal, [any] one.
+words:
+  - entry: wa-lam
+    ar: وَلَمْ
+    tr: wa-lam
+    used:
+      - and not
+      - and never
+    why:
+      text: Past negation, joined to the previous verse.
+      tag: consensus
+  - entry: kana
+    ar: يَكُن
+    tr: yakun
+    used:
+      - has been
+    why:
+      text: kāna works here as a linking verb. Its subject is aḥad and its predicate is kufuwan.
+      tag: scholar
+      scholar: al-Zamakhsharī
+      sources:
+        - id: kashshaf
+          loc: on 112:4
+      review: true
+  - entry: lahu
+    ar: لَّهُۥ
+    tr: lahu
+    used:
+      - to Him
+    why:
+      text: li (for, to) with the pronoun hu (Him).
+      tag: consensus
+  - entry: kufuw
+    ar: كُفُوًا
+    tr: kufuwan
+    used:
+      - equal
+      - peer
+    why:
+      text: "kufuʾ is a match or peer: someone of the same standing."
+      tag: scholar
+      scholar: Lane; Ibn Fāris
+      sources:
+        - id: lane
+          loc: k-f-ʾ
+        - id: maqayis
+          loc: k-f-ʾ
+      review: true
+    special:
+      text: The same word family gives kafāʾa, the term in Islamic law for two spouses being suitable matches in standing. The verse denies that anyone is God's "match" in that sense.
+      tag: consensus
+  - entry: ahad
+    ar: أَحَدٌۢ
+    tr: aḥadun
+    used:
+      - anyone
+      - no one (with the negation)
+    why:
+      text: "After a negation, aḥad covers every possible individual: no one at all."
+      tag: scholar
+      scholar: al-Rāghib al-Iṣfahānī
+      sources:
+        - id: mufradat
+          loc: entry aḥad
+      review: true
+layers:
+  - reading: No one is His equal
+    translation: And there has never been anyone equal to Him.
+    note: Nothing and no one stands level with Him.
+    explanation:
+      text: "The usual parsing: the predicate kufuwan is placed before the subject aḥad."
+      tag: scholar
+      scholar: al-Zamakhsharī
+      sources:
+        - id: kashshaf
+          loc: on 112:4
+      review: true
+    tafsir:
+      - text: There is nothing like Him (42:11). No one shares His essence, attributes or actions.
+        tag: consensus
+        sources:
+          - id: quran
+            loc: 42:11
+      - text: He has no equal, no likeness and no rival.
+        tag: scholar
+        scholar: Ibn Kathīr
+        sources:
+          - id: ibnkathir
+            loc: on 112:4
+        review: true
+  - reading: No one stands toward Him as an equal
+    translation: And no one has ever stood toward Him as an equal.
+    note: A second way to read the grammar, still being checked.
+    explanation:
+      text: Some grammarians allow kufuwan as a ḥāl (a word describing a state). Confirm the source before keeping this layer.
+      tag: scholar
+      scholar: Reported in works of iʿrāb, possibly al-Samīn al-Ḥalabī, al-Durr al-Maṣūn
+      review: true
+    tafsir: []
+miracle:
+  - topic: Word order
+    title: '"To Him", placed first'
+    text: lahu (to Him) comes before kufuwan (an equal), although such a phrase would normally come later. It is moved forward because the point is to deny an equal to God specifically.
+    tag: scholar
+    scholar: al-Zamakhsharī
+    sources:
+      - id: kashshaf
+        loc: on 112:4
+    review: true
+  - topic: Word choice
+    title: Kufuw, not mithl
+    text: The verse uses kufuw (an equal in rank), not mithl (a likeness) or nidd (a rival). So it denies anyone who could stand at God's level, not only anyone who looks like Him.
+    tag: reflection
+  - topic: Structure
+    title: The final aḥad
+    text: The surah ends on the same word that ended its first verse. In verse 1 aḥad means "One"; here, after a negation, it means "anyone". The same word affirms His oneness and denies every rival.
+    tag: reflection
+asbab:
+  exists: false
+  note: No separate narration for this verse. See verse 1 for the surah as a whole.

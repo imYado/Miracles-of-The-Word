@@ -1,0 +1,8 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+rootTr: conjunction + particle
+meanings:
+  - and not
+translations:
+  - and not
+  - and never
+  - nor

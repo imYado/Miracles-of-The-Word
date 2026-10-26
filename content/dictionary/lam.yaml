@@ -1,0 +1,8 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+rootTr: particle, no root
+meanings:
+  - not (negates the past; puts the verb in the jussive)
+translations:
+  - did not
+  - has not
+  - never

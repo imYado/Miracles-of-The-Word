@@ -1,0 +1,22 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+root: ص م د
+rootTr: ṣ-m-d
+rootMeaning: to aim for; to be solid
+meanings:
+  - to aim for, to turn to (qaṣd)
+  - solid, without hollow (ṣalāba)
+  - the master to whom people turn in their needs
+  - the master perfect in his mastery
+  - the one who remains, the Everlasting
+translations:
+  - the Eternal Refuge
+  - the Self-Sufficient
+  - the Master
+  - the Everlasting
+  - the Absolute
+lexicon:
+  - id: maqayis
+    loc: ṣ-m-d
+  - id: lane
+    loc: ṣ-m-d
+review: true

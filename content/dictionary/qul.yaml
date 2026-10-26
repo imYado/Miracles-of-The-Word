@@ -1,0 +1,18 @@
+# Shared dictionary entry. Every verse that uses this word reads it from here.
+root: ق و ل
+rootTr: q-w-l
+rootMeaning: speech, saying
+meanings:
+  - to say, to utter
+  - to state a view or belief
+  - speech held in the mind
+translations:
+  - Say
+  - Declare
+  - Proclaim
+lexicon:
+  - id: mufradat
+    loc: entry q-w-l
+  - id: lane
+    loc: q-w-l
+review: true

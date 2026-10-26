@@ -1,0 +1,30 @@
+<div class="page">
+  <header class="top">
+    <a class="brand" href="/"><span class="star">✦</span>The Miracles of The Word</a>
+    <button class="edit-toggle" id="edit-toggle" type="button" aria-pressed="false" hidden>Edit</button>
+  </header>
+  <main id="main">{{main}}</main>
+</div>
+<div id="card" role="dialog" aria-label="Word details" hidden></div>
+<div id="ebar" hidden>
+  <div id="issues" hidden></div>
+  <div class="in">
+    <span class="status" id="status">Editing</span>
+    <button class="btn" id="btn-check" type="button" aria-expanded="false"></button>
+    <button class="btn" id="btn-copy" type="button">Copy JSON</button>
+    <button class="btn" id="btn-import" type="button">Import</button>
+    <button class="btn" id="btn-reset" type="button">Restore original</button>
+    <button class="btn" id="btn-done" type="button">Done</button>
+  </div>
+</div>
+<div id="modal" hidden>
+  <div class="box">
+    <strong>Import JSON</strong>
+    <span>Paste a surah file copied from this editor. It replaces what is on the page.</span>
+    <textarea id="import-text" aria-label="JSON to import"></textarea>
+    <span class="err" id="import-err"></span>
+    <div class="ebar-row"><button class="ebtn" id="import-go" type="button">Load</button><button class="ebtn x" id="import-cancel" type="button">Cancel</button></div>
+  </div>
+</div>
+<script type="application/json" id="doc">{{doc}}</script>
+<script type="module" src="/assets/{{v}}/page.js"></script>

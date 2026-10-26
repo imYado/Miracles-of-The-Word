@@ -1,0 +1,98 @@
+# Sūrat al-Ikhlāṣ (112)
+number: 112
+nameAr: الإخلاص
+nameTr: al-Ikhlāṣ
+nameEn: Sincerity
+tagline: Four verses that say who God is, and who He is not.
+status: Draft · items marked verify need scholar review
+theme:
+  - text: "The surah is a complete statement of tawḥīd: who God is (One, al-Ṣamad) and what He is not (not begetting, not begotten, without equal)."
+    tag: consensus
+    sources:
+      - id: tabari
+        loc: on 112
+      - id: ibnkathir
+        loc: on 112
+      - id: qurtubi
+        loc: on 112
+  - text: The Prophet ﷺ said that this surah equals a third of the Qurʾān.
+    tag: consensus
+    sources:
+      - id: bukhari
+        loc: 5013, from Abū Saʿīd al-Khudrī
+  - text: "Scholars explain the \"third\" in different ways. One common explanation: the Qurʾān's content falls into rulings, narratives, and the description of God, and this surah gathers the third kind."
+    tag: scholar
+    scholar: Reported in al-Qurṭubī among other explanations
+    sources:
+      - id: qurtubi
+        loc: on 112
+    review: true
+miracle:
+  - topic: Sound
+    title: One rhyme, one Lord
+    text: "All four verses end on the sound -ad: aḥad, ṣamad, yūlad, aḥad. The final dāl is a qalqala letter, which ends each verse with a short, firm stop."
+    tag: consensus
+  - topic: Sound
+    title: Each verse sealed
+    text: Because every verse lands on a closed, firm sound, each statement about God feels complete and final when recited. Nothing trails off.
+    tag: reflection
+  - topic: Structure
+    title: Fifteen words
+    text: In fifteen Arabic words the surah affirms two things (He is One, He is al-Ṣamad) and denies three (begetting, being begotten, having any equal). Nothing is repeated except the name Allāh and the word aḥad.
+    tag: reflection
+  - topic: Structure
+    title: Opens and closes with aḥad
+    text: The surah's statement begins with aḥad (verse 1) and ends with aḥad (verse 4). The first affirms that He is One; the last denies that anyone is like Him.
+    tag: reflection
+revelation:
+  text: Most scholars count the surah as Makkan; others count it as Madinan. The difference follows the reports about who asked the question that it answers (see verse 1).
+  tag: scholar
+  scholar: Both positions are discussed by Ibn ʿĀshūr
+  sources:
+    - id: tahrir
+      loc: introduction to 112
+  review: true
+links:
+  previous:
+    surah: al-Masad (111)
+    claims:
+      - text: al-Masad names a man by his kunya, Abū Lahab, and says his wealth and what he earned will not save him. al-Ikhlāṣ follows with the One who has no lineage and needs nothing. Human lineage and wealth fail; God is beyond both.
+        tag: reflection
+  next:
+    surah: al-Falaq (113)
+    claims:
+      - text: al-Ikhlāṣ, al-Falaq and al-Nās all open with "qul" (say). The Prophet ﷺ would recite the three together before sleeping.
+        tag: consensus
+        sources:
+          - id: bukhari
+            loc: Book of the Virtues of the Qurʾān, from ʿĀʾisha
+        review: true
+      - text: al-Ikhlāṣ first establishes who God is; al-Falaq and al-Nās then seek refuge in Him. Knowing the One comes before asking Him for protection.
+        tag: reflection
+ring:
+  supported: true
+  demo: true
+  claim:
+    text: "A possible ring, drafted for the demo: verses 1 and 4 mirror each other, and so do verses 2 and 3. No scholar who verifies this ring is cited yet. The same verses can also be read as a simple parallel: two affirmations, then two denials."
+    tag: reflection
+    review: true
+  units:
+    - label: A
+      ref: 112:1
+      text: "Say: He is Allah, One. His oneness affirmed."
+    - label: B
+      ref: 112:2
+      text: Allah, al-Ṣamad. All depend on Him.
+    - label: B′
+      ref: 112:3
+      text: He has not begotten, nor been begotten. He depends on no one.
+    - label: A′
+      ref: 112:4
+      text: And there is none equal to Him. Any rival denied.
+  pairs:
+    - a: 0
+      b: 3
+      note: Both end on aḥad. Verse 1 affirms that He is One; verse 4, after a negation, denies that anyone at all is His equal.
+    - a: 1
+      b: 2
+      note: Verse 3 unpacks al-Ṣamad. In the narration of Ubayy ibn Kaʿb (al-Tirmidhī), al-Ṣamad is explained as the One who does not beget and was not begotten.

@@ -1,0 +1,76 @@
+# Every source cited anywhere on the site, written once.
+# A claim cites one by id, with an optional location:  sources: [{ id: kashshaf, loc: "on 112:1" }]
+# Death dates are AH unless marked CE.
+
+quran:
+  short: Qurʾān
+  title: The Qurʾān
+  type: quran
+
+# Lexicons
+mufradat:
+  short: al-Mufradāt
+  title: al-Mufradāt fī Gharīb al-Qurʾān
+  author: al-Rāghib al-Iṣfahānī (d. c. 502)
+  type: lexicon
+maqayis:
+  short: Maqāyīs al-Lugha
+  title: Muʿjam Maqāyīs al-Lugha
+  author: Ibn Fāris (d. 395)
+  type: lexicon
+lane:
+  short: Lane's Lexicon
+  title: An Arabic-English Lexicon
+  author: Edward William Lane (d. 1876 CE)
+  type: lexicon
+
+# Linguistic tafsir
+kashshaf:
+  short: al-Kashshāf
+  title: al-Kashshāf ʿan Ḥaqāʾiq Ghawāmiḍ al-Tanzīl
+  author: al-Zamakhsharī (d. 538)
+  type: tafsir
+tahrir:
+  short: al-Taḥrīr wa-l-Tanwīr
+  title: al-Taḥrīr wa-l-Tanwīr
+  author: Muḥammad al-Ṭāhir Ibn ʿĀshūr (d. 1393)
+  type: tafsir
+
+# General tafsir
+tabari:
+  short: Jāmiʿ al-Bayān
+  title: Jāmiʿ al-Bayān ʿan Taʾwīl Āy al-Qurʾān
+  author: al-Ṭabarī (d. 310)
+  type: tafsir
+ibnkathir:
+  short: Tafsīr Ibn Kathīr
+  title: Tafsīr al-Qurʾān al-ʿAẓīm
+  author: Ibn Kathīr (d. 774)
+  type: tafsir
+qurtubi:
+  short: al-Jāmiʿ li-Aḥkām al-Qurʾān
+  title: al-Jāmiʿ li-Aḥkām al-Qurʾān
+  author: al-Qurṭubī (d. 671)
+  type: tafsir
+
+# Hadith and sīra
+bukhari:
+  short: Ṣaḥīḥ al-Bukhārī
+  title: al-Jāmiʿ al-Ṣaḥīḥ
+  author: al-Bukhārī (d. 256)
+  type: hadith
+tirmidhi:
+  short: Jāmiʿ al-Tirmidhī
+  title: al-Jāmiʿ
+  author: al-Tirmidhī (d. 279)
+  type: hadith
+musnad:
+  short: Musnad Aḥmad
+  title: al-Musnad
+  author: Aḥmad ibn Ḥanbal (d. 241)
+  type: hadith
+sira:
+  short: al-Sīra al-Nabawiyya
+  title: al-Sīra al-Nabawiyya
+  author: Ibn Hishām, from Ibn Isḥāq
+  type: sira
